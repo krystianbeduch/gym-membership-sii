@@ -36,4 +36,10 @@ public class Gym {
 //    @Size(max = 20, message = "{gym.phoneNumber.size}")
     @Column(nullable = false, length = 20)
     private String phoneNumber;
+
+    public Gym(String name, GymAddress gymAddress, String phoneNumber) {
+        this.name = name;
+        this.gymAddress = gymAddress;
+        this.phoneNumber = phoneNumber;
+    }
 }
