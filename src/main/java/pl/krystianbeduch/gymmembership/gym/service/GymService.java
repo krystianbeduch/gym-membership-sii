@@ -8,6 +8,7 @@ import pl.krystianbeduch.gymmembership.gym.dto.GymCreateRequestDto;
 import pl.krystianbeduch.gymmembership.gym.dto.GymResponseDto;
 import pl.krystianbeduch.gymmembership.gym.entity.Gym;
 import pl.krystianbeduch.gymmembership.gym.exception.GymNameAlreadyExistsException;
+import pl.krystianbeduch.gymmembership.gym.exception.GymNotFoundException;
 import pl.krystianbeduch.gymmembership.gym.mapper.GymMapper;
 import pl.krystianbeduch.gymmembership.gym.repository.GymRepository;
 
@@ -57,5 +58,23 @@ public class GymService {
 
         log.debug("Fetched {} gyms", gyms.size());
         return gyms;
+    }
+
+    @Transactional(readOnly = true)
+    public Gym getGymById(Long id) {
+        log.info("Fetching gym with id={}", id);
+
+        return gymRepository.findById(id).orElseThrow(
+                () -> new GymNotFoundException("Gym with id " + id + " not found")
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public void validateGymExists(Long id) {
+        log.info("Validating gym existence for id={}", id);
+
+        if (!gymRepository.existsById(id)) {
+            throw new GymNotFoundException("Gym with id " + id + " not found");
+        }
     }
 }

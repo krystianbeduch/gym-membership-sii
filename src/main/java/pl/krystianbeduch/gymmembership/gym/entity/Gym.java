@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import pl.krystianbeduch.gymmembership.membership.entity.MembershipPlan;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,6 +40,9 @@ public class Gym {
 //    @Size(max = 20, message = "{gym.phoneNumber.size}")
     @Column(nullable = false, length = 20)
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "gym", cascade = CascadeType.ALL)
+    private List<MembershipPlan> membershipPlan = new ArrayList<>();
 
     public Gym(String name, GymAddress gymAddress, String phoneNumber) {
         this.name = name;
