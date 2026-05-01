@@ -1,4 +1,4 @@
-package pl.krystianbeduch.gym_membership_management;
+package pl.krystianbeduch.gymmembership;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class GymMembershipApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GymMembershipApplication.class, args);
 	}
-
 }

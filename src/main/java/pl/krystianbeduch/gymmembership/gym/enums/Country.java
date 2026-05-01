@@ -1,4 +1,4 @@
-package pl.krystianbeduch.gymmembership.enums;
+package pl.krystianbeduch.gymmembership.gym.enums;
 
 public enum Country {
     GERMANY,

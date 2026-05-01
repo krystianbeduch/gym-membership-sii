@@ -1,4 +1,4 @@
-package pl.krystianbeduch.gymmembership.enums;
+package pl.krystianbeduch.gymmembership.membership.enums;
 
 public enum MembershipPlanType {
     BASIC,

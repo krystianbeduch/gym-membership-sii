@@ -1,4 +1,4 @@
-package pl.krystianbeduch.gym_membership_management;
+package pl.krystianbeduch.gymmembership;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
