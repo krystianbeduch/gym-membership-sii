@@ -1,6 +1,7 @@
 package pl.krystianbeduch.gymmembership.membership.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class Member {
     private String lastName;
 
     @Column(nullable = false, length = 100, unique = true)
+    @Email
     private String email;
 
     @CreationTimestamp

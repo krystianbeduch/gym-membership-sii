@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.krystianbeduch.gymmembership.gym.dto.GymAddressRequestDto;
 import pl.krystianbeduch.gymmembership.gym.dto.GymAddressResponseDto;
 import pl.krystianbeduch.gymmembership.gym.dto.GymCreateRequestDto;
 import pl.krystianbeduch.gymmembership.gym.dto.GymResponseDto;
@@ -15,6 +14,7 @@ import pl.krystianbeduch.gymmembership.gym.exception.GymNameAlreadyExistsExcepti
 import pl.krystianbeduch.gymmembership.gym.mapper.GymMapper;
 import pl.krystianbeduch.gymmembership.gym.repository.GymRepository;
 import pl.krystianbeduch.gymmembership.gym.service.GymService;
+import pl.krystianbeduch.gymmembership.testdata.GymTestDataFactory;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ class GymServiceUnitTest {
 
     @Test
     void createGym_shouldCreateGymWhenNameIsUnique() {
-        GymCreateRequestDto request = createRequestDto();
+        GymCreateRequestDto request = GymTestDataFactory.createRequestDto();
 
         Gym gym = new Gym();
         Gym savedGym = new Gym();
@@ -72,7 +72,7 @@ class GymServiceUnitTest {
 
     @Test
     void createGym_shouldThrowGymNameAlreadyExistsExceptionWhenNameExists() {
-        GymCreateRequestDto request = createRequestDto();
+        GymCreateRequestDto request = GymTestDataFactory.createRequestDto();
 
         when(gymRepository.existsByName(request.name())).thenReturn(true);
 
@@ -136,19 +136,5 @@ class GymServiceUnitTest {
         verify(gymMapper).entityToResponseDto(gym1);
         verify(gymMapper).entityToResponseDto(gym2);
         verifyNoMoreInteractions(gymRepository, gymMapper);
-    }
-    private GymCreateRequestDto createRequestDto() {
-        return new GymCreateRequestDto(
-                "Gym",
-                new GymAddressRequestDto(
-                        Country.POLAND,
-                        "City",
-                        "11-111",
-                        "Street1",
-                        "1",
-                        null
-                ),
-                "123"
-        );
     }
 }

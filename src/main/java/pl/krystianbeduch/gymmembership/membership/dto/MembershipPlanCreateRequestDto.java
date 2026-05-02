@@ -1,16 +1,13 @@
 package pl.krystianbeduch.gymmembership.membership.dto;
 
 import jakarta.validation.constraints.*;
-import pl.krystianbeduch.gymmembership.membership.entity.MembershipPlan;
 import pl.krystianbeduch.gymmembership.membership.enums.MembershipPlanType;
 
 import java.math.BigDecimal;
 
 public record MembershipPlanCreateRequestDto (
-
         @NotBlank(message = "{membershipPlan.name.notBlank}")
         @Size(max = 100, message = "{membershipPlan.name.size}")
-        @Size(max = 100)
         String name,
 
         @NotNull(message = "{membershipPlan.type.notNull}")

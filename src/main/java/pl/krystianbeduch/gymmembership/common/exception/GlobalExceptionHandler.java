@@ -1,5 +1,6 @@
 package pl.krystianbeduch.gymmembership.common.exception;
 
+import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import pl.krystianbeduch.gymmembership.gym.exception.GymNameAlreadyExistsException;
 import pl.krystianbeduch.gymmembership.gym.exception.GymNotFoundException;
 import tools.jackson.core.JacksonException;
@@ -16,24 +18,53 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Global exception handler responsible for translating application and validation
+ * exceptions into consistent API error responses.
+ *
+ * <p>This class centralizes error handling for all REST controllers, so controllers
+ * and services do not need to duplicate response-building logic.</p>
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handles the business case when a gym with the same name already exists.
+     *
+     * <p>Returned when the application detects a duplicate gym name during creation.
+     * Maps the error to HTTP 409 Conflict because the request cannot be completed
+     * due to an existing resource with the same unique value.</p>
+     */
     @ExceptionHandler(GymNameAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ApiError handleGymNameAlreadyException(GymNameAlreadyExistsException e) {
         return ApiError.of(HttpStatus.CONFLICT, e.getMessage());
     }
 
+    /**
+     * Handles the case when the requested gym resource does not exist.
+     *
+     * <p>Used when a gym cannot be found by its identifier or another lookup key.
+     * Maps the error to HTTP 404 Not Found.</p>
+     */
     @ExceptionHandler(GymNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleGymNotFoundException(GymNotFoundException e) {
         return ApiError.of(HttpStatus.NOT_FOUND, e.getMessage());
     }
 
+    /**
+     * Handles validation errors for request bodies validated with @Valid.
+     *
+     * <p>This exception is typically thrown when a JSON request body is bound to a DTO
+     * and bean validation fails, for example, when a field is blank, null, too long,
+     * or has an invalid format. Returns the first validation message as HTTP 400 Bad Request.</p>
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiError handleValidation(MethodArgumentNotValidException ex) {
+    public ApiError handleValidation(
+            MethodArgumentNotValidException ex
+    ) {
          String message = ex.getBindingResult()
                  .getFieldErrors()
                  .stream()
@@ -44,6 +75,36 @@ public class GlobalExceptionHandler {
          return ApiError.of(HttpStatus.BAD_REQUEST, message);
     }
 
+    /**
+     * Handles validation errors for controller method parameters.
+     *
+     * <p>This exception is typically thrown when validation fails for method parameters
+     * such as @PathVariable or other directly validated handler method
+     * arguments. Returns the first validation message as HTTP 400 Bad Request.</p>
+     */
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleHandlerMethodValidationException(
+            HandlerMethodValidationException ex
+    ) {
+        String message = ex.getAllErrors()
+                .stream()
+                .findFirst()
+                .map(MessageSourceResolvable::getDefaultMessage)
+                .orElse("Validation failed");
+
+        return ApiError.of(HttpStatus.BAD_REQUEST, message);
+    }
+
+
+    /**
+    * Handles invalid enum values in HTTP request bodies.
+    *
+    * <p>This exception is thrown when the incoming JSON contains a value that cannot
+    * be mapped to the target enum type. In that case, the response includes the field
+    * name and the list of allowed enum values. For all other parsing problems,
+    * a generic malformed JSON message is returned.</p>
+    */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {

@@ -11,12 +11,14 @@ import pl.krystianbeduch.gymmembership.gym.dto.GymCreateRequestDto;
 import pl.krystianbeduch.gymmembership.gym.enums.Country;
 
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GymCreateRequestValidationTest {
 
+    private String uniqueName;
     private Validator validator;
     private static final int NAME_MAX_SIZE = 100;
     private static final int PHONE_MAX_SIZE = 20;
@@ -26,6 +28,8 @@ class GymCreateRequestValidationTest {
     void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+
+        uniqueName = UUID.randomUUID().toString();
     }
 
     @Test
@@ -41,7 +45,7 @@ class GymCreateRequestValidationTest {
         GymCreateRequestDto request = new GymCreateRequestDto(
                 null,
                 validAddress(),
-                "34 365 88 34"
+                "123"
         );
 
         Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
@@ -55,7 +59,7 @@ class GymCreateRequestValidationTest {
         GymCreateRequestDto request = new GymCreateRequestDto(
                 "   ",
                 validAddress(),
-                "34 365 88 34"
+                "123"
         );
 
         Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
@@ -69,7 +73,7 @@ class GymCreateRequestValidationTest {
         GymCreateRequestDto request = new GymCreateRequestDto(
                 "a".repeat(NAME_MAX_SIZE + 1),
                 validAddress(),
-                "34 365 88 34"
+                "123"
         );
 
         Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
@@ -81,9 +85,9 @@ class GymCreateRequestValidationTest {
     @Test
     void shouldFailValidation_whenGymAddressIsNull() {
         GymCreateRequestDto request = new GymCreateRequestDto(
-                "Zdrowit Piastowska",
+                uniqueName,
                 null,
-                "34 365 88 34"
+                "123"
         );
 
         Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
@@ -95,7 +99,7 @@ class GymCreateRequestValidationTest {
     @Test
     void shouldFailValidation_whenPhoneNumberIsBlank() {
         GymCreateRequestDto request = new GymCreateRequestDto(
-                "Zdrowit Piastowska",
+                uniqueName,
                 validAddress(),
                 "   "
         );
@@ -109,7 +113,7 @@ class GymCreateRequestValidationTest {
     @Test
     void shouldFailValidation_whenPhoneNumberExceedsMaxSize() {
         GymCreateRequestDto request = new GymCreateRequestDto(
-                "Zdrowit Piastowska",
+                uniqueName,
                 validAddress(),
                 "1".repeat(PHONE_MAX_SIZE + 1)
         );
@@ -123,16 +127,16 @@ class GymCreateRequestValidationTest {
     @Test
     void shouldFailValidation_whenCityIsBlank() {
         GymCreateRequestDto request = new GymCreateRequestDto(
-                "Zdrowit Piastowska",
+                uniqueName,
                 new GymAddressRequestDto(
                         Country.POLAND,
                         "   ",
-                        "42-202",
-                        "Piastowska",
-                        "225",
+                        "11-111",
+                        "Street",
+                        "1",
                         null
                 ),
-                "34 365 88 34"
+                "123"
         );
 
         Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
@@ -144,16 +148,16 @@ class GymCreateRequestValidationTest {
      @Test
     void shouldFailValidation_whenCountryIsNull() {
         GymCreateRequestDto request = new GymCreateRequestDto(
-                "Zdrowit Piastowska",
+                uniqueName,
                 new GymAddressRequestDto(
                         null,
-                        "Czestochowa",
-                        "42-202",
-                        "Piastowska",
-                        "225",
+                        "City",
+                        "11-111",
+                        "Street",
+                        "1",
                         null
                 ),
-                "34 365 88 34"
+                "123"
         );
 
         Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
@@ -165,16 +169,16 @@ class GymCreateRequestValidationTest {
     @Test
     void shouldFailValidation_whenPostalCodeExceedsMaxSize() {
         GymCreateRequestDto request = new GymCreateRequestDto(
-                "Zdrowit Piastowska",
+                uniqueName,
                 new GymAddressRequestDto(
                         Country.POLAND,
-                        "Czestochowa",
+                        "City",
                         "1".repeat(POSTAL_CODE_MAX_SIZE + 1),
-                        "Piastowska",
-                        "225",
+                        "Street",
+                        "1",
                         null
                 ),
-                "34 365 88 34"
+                "123"
         );
 
         Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
@@ -185,19 +189,19 @@ class GymCreateRequestValidationTest {
 
     private GymCreateRequestDto validRequest() {
         return new GymCreateRequestDto(
-                "Zdrowit Piastowska",
+                uniqueName,
                 validAddress(),
-                "34 365 88 34"
+                "123"
         );
     }
 
     private GymAddressRequestDto validAddress() {
         return new GymAddressRequestDto(
                 Country.POLAND,
-                "Czestochowa",
-                "42-202",
-                "Piastowska",
-                "225",
+                "City",
+                "11-111",
+                "Street",
+                "1",
                 null
         );
     }

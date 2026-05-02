@@ -23,7 +23,9 @@ public class GymController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     @ResponseStatus(HttpStatus.CREATED)
-    public GymResponseDto createGym(@Valid @RequestBody GymCreateRequestDto request) {
+    public GymResponseDto createGym(
+            @Valid @RequestBody GymCreateRequestDto request
+    ) {
         return gymService.createGym(request);
     }
 

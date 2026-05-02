@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 import pl.krystianbeduch.gymmembership.gym.enums.Country;
 
 public record GymAddressRequestDto(
-
         @NotNull(message = "{gym.address.country.notNull}")
         Country country,
 

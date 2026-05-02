@@ -6,17 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import pl.krystianbeduch.gymmembership.gym.dto.GymAddressRequestDto;
 import pl.krystianbeduch.gymmembership.gym.dto.GymCreateRequestDto;
 import pl.krystianbeduch.gymmembership.gym.dto.GymResponseDto;
 import pl.krystianbeduch.gymmembership.gym.entity.Gym;
-import pl.krystianbeduch.gymmembership.gym.entity.GymAddress;
-import pl.krystianbeduch.gymmembership.gym.enums.Country;
 import pl.krystianbeduch.gymmembership.gym.exception.GymNameAlreadyExistsException;
 import pl.krystianbeduch.gymmembership.gym.repository.GymRepository;
 import pl.krystianbeduch.gymmembership.gym.service.GymService;
+import pl.krystianbeduch.gymmembership.testdata.GymTestDataFactory;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,24 +37,26 @@ class GymServiceIntegrationTest {
 
     @Test
     void createGym_shouldPersistGymWhenNameIsUnique() {
-        GymCreateRequestDto request = createRequestDto();
+        String uniqueName = "Gym-" + UUID.randomUUID();
+        GymCreateRequestDto request = GymTestDataFactory.createRequestDto(uniqueName);
 
         GymResponseDto result = gymService.createGym(request);
 
         assertNotNull(result);
         assertNotNull(result.id());
-        assertEquals("Gym", result.name());
+        assertEquals(uniqueName, result.name());
         assertEquals(1, gymRepository.count());
 
         Gym savedGym = gymRepository.findAll().getFirst();
-        assertEquals("Gym", savedGym.getName());
+        assertEquals(uniqueName, savedGym.getName());
     }
 
     @Test
     void createGym_shouldThrowExceptionWhenGymNameAlreadyExists() {
-        gymRepository.save(createEntity("Gym"));
+        String uniqueName = "Gym-" + UUID.randomUUID();
+        gymRepository.save(GymTestDataFactory.createGym(uniqueName));
 
-        GymCreateRequestDto request = createRequestDto();
+        GymCreateRequestDto request = GymTestDataFactory.createRequestDto(uniqueName);
 
         assertThrows(
                 GymNameAlreadyExistsException.class,
@@ -67,8 +68,8 @@ class GymServiceIntegrationTest {
 
     @Test
     void getAllGyms_shouldReturnAllPersistedGyms() {
-        Gym gym1 = createEntity("Gym1");
-        Gym gym2 = createEntity("Gym2");
+        Gym gym1 = GymTestDataFactory.createGym("Gym1");
+        Gym gym2 = GymTestDataFactory.createGym("Gym2");
 
         gymRepository.save(gym1);
         gymRepository.save(gym2);
@@ -78,35 +79,5 @@ class GymServiceIntegrationTest {
         assertEquals(2, result.size());
         assertTrue(result.stream().anyMatch(g -> g.name().equals("Gym1")));
         assertTrue(result.stream().anyMatch(g -> g.name().equals("Gym2")));
-    }
-
-    private GymCreateRequestDto createRequestDto() {
-        return new GymCreateRequestDto(
-                "Gym",
-                new GymAddressRequestDto(
-                        Country.POLAND,
-                        "City",
-                        "11-111",
-                        "Street1",
-                        "1",
-                        null
-                ),
-                "123"
-        );
-    }
-
-    private Gym createEntity(String name) {
-        return new Gym(
-                name,
-                new GymAddress(
-                        Country.POLAND,
-                        "City",
-                        "11-111",
-                        "Street1",
-                        "1",
-                        null
-                ),
-                "123"
-        );
     }
 }

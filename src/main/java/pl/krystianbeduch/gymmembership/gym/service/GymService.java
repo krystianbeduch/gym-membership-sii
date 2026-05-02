@@ -23,7 +23,9 @@ public class GymService {
     private final GymMapper gymMapper;
 
     @Transactional
-    public GymResponseDto createGym(GymCreateRequestDto request) {
+    public GymResponseDto createGym(
+            GymCreateRequestDto request
+    ) {
         log.info("Creating gym with name={}", request.name());
 
         if (gymRepository.existsByName(request.name())) {

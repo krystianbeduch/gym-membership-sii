@@ -1,6 +1,7 @@
 package pl.krystianbeduch.gymmembership.membership.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +25,9 @@ public class MembershipPlanController {
     )
     @ResponseStatus(HttpStatus.CREATED)
     public MembershipPlanResponseDto createMembershipPlan(
-            @PathVariable("gymId") Long gymId,
+            @PathVariable("gymId")
+            @Positive(message = "{gym.id.positive}")
+            Long gymId,
             @Valid @RequestBody MembershipPlanCreateRequestDto requestDto
     ) {
         return membershipPlanService.createMembershipPlan(gymId, requestDto);
@@ -32,7 +35,9 @@ public class MembershipPlanController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<MembershipPlanResponseDto> getAllMembershipPlansForGym(
-            @PathVariable Long gymId
+            @PathVariable("gymId")
+            @Positive(message = "{gym.id.positive}")
+            Long gymId
     ) {
         return membershipPlanService.getAllMembershipPlanForGym(gymId);
     }

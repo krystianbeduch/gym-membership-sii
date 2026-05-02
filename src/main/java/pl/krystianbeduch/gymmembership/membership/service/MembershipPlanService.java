@@ -1,8 +1,5 @@
 package pl.krystianbeduch.gymmembership.membership.service;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,8 +25,8 @@ public class MembershipPlanService {
 
     @Transactional
     public MembershipPlanResponseDto createMembershipPlan(
-            @NotNull @Positive Long gymId,
-            @NotNull @Valid MembershipPlanCreateRequestDto requestDto
+            Long gymId,
+            MembershipPlanCreateRequestDto requestDto
     ) {
         log.info(
                 "Creating membership plan with name={} for gymId={}",
