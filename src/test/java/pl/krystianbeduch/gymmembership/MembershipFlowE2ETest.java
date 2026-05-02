@@ -20,7 +20,6 @@ import pl.krystianbeduch.gymmembership.membership.enums.MembershipPlanType;
 import pl.krystianbeduch.gymmembership.membership.repository.MembershipPlanRepository;
 import pl.krystianbeduch.gymmembership.testdata.GymTestDataFactory;
 import pl.krystianbeduch.gymmembership.testdata.MembershipPlanTestDataFactory;
-import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -33,7 +32,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-//@AutoConfigureMockMvc
 @ActiveProfiles("test")
 class MembershipFlowE2ETest {
 
@@ -41,12 +39,6 @@ class MembershipFlowE2ETest {
     private int port;
 
     private RestClient restClient;
-
-//    @Autowired
-//    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private GymRepository gymRepository;
