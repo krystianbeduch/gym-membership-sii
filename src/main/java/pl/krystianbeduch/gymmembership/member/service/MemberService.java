@@ -69,8 +69,6 @@ public class MemberService {
             );
         }
         Member member = memberMapper.requestDtoToEntity(requestDto, membershipPlan);
-//        member.setMemberStatus(MemberStatus.ACTIVE);
-//        member.setMembershipPlan(membershipPlan);
         Member savedMember = memberRepository.save(member);
 
          log.info(

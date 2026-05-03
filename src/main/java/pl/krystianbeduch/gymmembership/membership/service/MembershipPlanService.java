@@ -35,8 +35,9 @@ public class MembershipPlanService {
         );
 
         Gym gym = gymService.getGymById(gymId);
-        MembershipPlan membershipPlan = membershipPlanMapper.requestDtoToEntity(requestDto);
-        membershipPlan.setGym(gym);
+        MembershipPlan membershipPlan = membershipPlanMapper.requestDtoToEntity(
+                requestDto, gym
+        );
 
         MembershipPlan savedMembershipPlan = membershipPlanRepository.save(membershipPlan);
 

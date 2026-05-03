@@ -3,6 +3,7 @@ package pl.krystianbeduch.gymmembership.membership.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
+import pl.krystianbeduch.gymmembership.gym.entity.Gym;
 import pl.krystianbeduch.gymmembership.membership.dto.MembershipPlanCreateRequestDto;
 import pl.krystianbeduch.gymmembership.membership.dto.MembershipPlanResponseDto;
 import pl.krystianbeduch.gymmembership.membership.entity.MembershipPlan;
@@ -14,11 +15,15 @@ import pl.krystianbeduch.gymmembership.membership.entity.MembershipPlan;
 public interface MembershipPlanMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "gym", ignore = true)
     @Mapping(target = "members", ignore = true)
-    @Mapping(target = "monthlyPrice.amount", source = "monthlyPriceAmount")
-    @Mapping(target = "monthlyPrice.currencyCode", source = "monthlyPriceCurrencyCode")
-    MembershipPlan requestDtoToEntity(MembershipPlanCreateRequestDto request);
+    @Mapping(target = "gym", source = "gym")
+    @Mapping(target = "name", source = "request.name")
+    @Mapping(target = "monthlyPrice.amount", source = "request.monthlyPriceAmount")
+    @Mapping(target = "monthlyPrice.currencyCode", source = "request.monthlyPriceCurrencyCode")
+    MembershipPlan requestDtoToEntity(
+            MembershipPlanCreateRequestDto request,
+            Gym gym
+    );
 
     @Mapping(target = "gymId", source = "gym.id")
     @Mapping(target = "gymName", source = "gym.name")

@@ -58,7 +58,7 @@ class MembershipPlanServiceUnitTest {
 
         when(gymService.getGymById(gymId))
                 .thenReturn(gym);
-        when(membershipPlanMapper.requestDtoToEntity(requestDto))
+        when(membershipPlanMapper.requestDtoToEntity(requestDto, gym))
                 .thenReturn(membershipPlan);
         when(membershipPlanRepository.save(membershipPlan))
                 .thenReturn(savedMembershipPlan);
@@ -81,7 +81,7 @@ class MembershipPlanServiceUnitTest {
         assertEquals(100, result.maxMembers());
 
         verify(gymService).getGymById(gymId);
-        verify(membershipPlanMapper).requestDtoToEntity(requestDto);
+        verify(membershipPlanMapper).requestDtoToEntity(requestDto, gym);
         verify(membershipPlanRepository).save(membershipPlan);
         verify(membershipPlanMapper).entityToResponseDto(savedMembershipPlan);
         verifyNoMoreInteractions(gymService, membershipPlanMapper, membershipPlanRepository);
