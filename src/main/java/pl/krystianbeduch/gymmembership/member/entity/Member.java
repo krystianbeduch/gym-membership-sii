@@ -1,12 +1,12 @@
-package pl.krystianbeduch.gymmembership.membership.entity;
+package pl.krystianbeduch.gymmembership.member.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import pl.krystianbeduch.gymmembership.membership.entity.MembershipPlan;
 import pl.krystianbeduch.gymmembership.membership.enums.MemberStatus;
 
 import java.time.LocalDate;
@@ -30,7 +30,6 @@ public class Member {
     private String lastName;
 
     @Column(nullable = false, length = 100, unique = true)
-    @Email
     private String email;
 
     @CreationTimestamp
@@ -39,9 +38,21 @@ public class Member {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 15)
-    private MemberStatus membershipStatus;
+    private MemberStatus memberStatus;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "membership_plan_id", nullable = false)
     private MembershipPlan membershipPlan;
+
+    public Member(String firstName, String lastName, String email, MemberStatus memberStatus, MembershipPlan membershipPlan) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.memberStatus = memberStatus;
+        this.membershipPlan = membershipPlan;
+    }
+
+    public void cancelMembership() {
+        memberStatus = MemberStatus.CANCELLED;
+    }
 }

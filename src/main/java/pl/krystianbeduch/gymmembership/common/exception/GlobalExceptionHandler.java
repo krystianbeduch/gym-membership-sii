@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
-import pl.krystianbeduch.gymmembership.gym.exception.GymNameAlreadyExistsException;
-import pl.krystianbeduch.gymmembership.gym.exception.GymNotFoundException;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.exc.InvalidFormatException;
 
@@ -31,25 +29,27 @@ public class GlobalExceptionHandler {
     /**
      * Handles the business case when a gym with the same name already exists.
      *
-     * <p>Returned when the application detects a duplicate gym name during creation.
-     * Maps the error to HTTP 409 Conflict because the request cannot be completed
-     * due to an existing resource with the same unique value.</p>
+     * <p>Used for situations where the request is valid but cannot be completed due to
+     * the current state of the system, for instance, when the provided gym name already
+     * exist or when the maximum membership plan capacity.
+     * Maps the error to HTTP 409 Conflict.</p>
      */
-    @ExceptionHandler(GymNameAlreadyExistsException.class)
+    @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ApiError handleGymNameAlreadyException(GymNameAlreadyExistsException e) {
+    public ApiError handleGymNameAlreadyException(ConflictException e) {
         return ApiError.of(HttpStatus.CONFLICT, e.getMessage());
     }
 
     /**
-     * Handles the case when the requested gym resource does not exist.
+     * Handles the case when the requested resource cannot be found.
      *
-     * <p>Used when a gym cannot be found by its identifier or another lookup key.
+     * <p>Used when an entity identified by an ID or another lookup key does not exist,
+     * for instance, a gym, membership plan or member.
      * Maps the error to HTTP 404 Not Found.</p>
      */
-    @ExceptionHandler(GymNotFoundException.class)
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiError handleGymNotFoundException(GymNotFoundException e) {
+    public ApiError handleGymNotFoundException(NotFoundException e) {
         return ApiError.of(HttpStatus.NOT_FOUND, e.getMessage());
     }
 
@@ -58,7 +58,8 @@ public class GlobalExceptionHandler {
      *
      * <p>This exception is typically thrown when a JSON request body is bound to a DTO
      * and bean validation fails, for example, when a field is blank, null, too long,
-     * or has an invalid format. Returns the first validation message as HTTP 400 Bad Request.</p>
+     * or has an invalid format.
+     * Returns the first validation message as HTTP 400 Bad Request.</p>
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -95,7 +96,6 @@ public class GlobalExceptionHandler {
 
         return ApiError.of(HttpStatus.BAD_REQUEST, message);
     }
-
 
     /**
     * Handles invalid enum values in HTTP request bodies.

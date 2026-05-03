@@ -24,21 +24,21 @@ public class GymService {
 
     @Transactional
     public GymResponseDto createGym(
-            GymCreateRequestDto request
+            GymCreateRequestDto requestDto
     ) {
-        log.info("Creating gym with name={}", request.name());
+        log.info("Creating gym with name={}", requestDto.name());
 
-        if (gymRepository.existsByName(request.name())) {
+        if (gymRepository.existsByName(requestDto.name())) {
             log.warn(
                     "Gym creation failed. Gym with name={} already exists",
-                    request.name()
+                    requestDto.name()
             );
             throw new GymNameAlreadyExistsException(
-                    "Gym with name '" + request.name() + "' already exists"
+                    "Gym with name '" + requestDto.name() + "' already exists"
             );
         }
 
-        Gym gym = gymMapper.requestDtoToEntity(request);
+        Gym gym = gymMapper.requestDtoToEntity(requestDto);
         Gym savedGym = gymRepository.save(gym);
 
         log.info(

@@ -1,6 +1,8 @@
 package pl.krystianbeduch.gymmembership.gym.exception;
 
-public class GymNameAlreadyExistsException extends RuntimeException {
+import pl.krystianbeduch.gymmembership.common.exception.ConflictException;
+
+public class GymNameAlreadyExistsException extends ConflictException {
     public GymNameAlreadyExistsException(String message) {
         super(message);
     }

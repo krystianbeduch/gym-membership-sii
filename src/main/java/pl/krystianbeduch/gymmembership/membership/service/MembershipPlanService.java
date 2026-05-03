@@ -9,6 +9,7 @@ import pl.krystianbeduch.gymmembership.gym.service.GymService;
 import pl.krystianbeduch.gymmembership.membership.dto.MembershipPlanCreateRequestDto;
 import pl.krystianbeduch.gymmembership.membership.dto.MembershipPlanResponseDto;
 import pl.krystianbeduch.gymmembership.membership.entity.MembershipPlan;
+import pl.krystianbeduch.gymmembership.membership.exception.MembershipPlanNotFoundException;
 import pl.krystianbeduch.gymmembership.membership.mapper.MembershipPlanMapper;
 import pl.krystianbeduch.gymmembership.membership.repository.MembershipPlanRepository;
 
@@ -68,5 +69,16 @@ public class MembershipPlanService {
                 membershipPlans.size(), gymId
         );
         return membershipPlans;
+    }
+
+    @Transactional(readOnly = true)
+    public MembershipPlan getMembershipPlanById(Long id) {
+        log.info("Fetching membership plan with id={}", id);
+
+        return membershipPlanRepository.findById(id).orElseThrow(
+                () -> new MembershipPlanNotFoundException(
+                        "Membership plan with id " + id + " not found"
+                )
+        );
     }
 }

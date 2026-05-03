@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.krystianbeduch.gymmembership.gym.entity.Gym;
+import pl.krystianbeduch.gymmembership.member.entity.Member;
 import pl.krystianbeduch.gymmembership.membership.enums.MembershipPlanType;
 
 import java.util.ArrayList;
