@@ -42,16 +42,18 @@ class MembershipPlanServiceUnitTest {
     void createMembershipPlan_shouldCreateMembershipPlanWhenGymExists() {
         Long gymId = 1L;
         Gym gym = new Gym(1L, "Gym");
-        MembershipPlan membershipPlan = new MembershipPlan(
-                "Premium 6M",
-                MembershipPlanType.PREMIUM
-        );
-        MembershipPlan savedMembershipPlan = new MembershipPlan(
-                "Premium 6M",
-                MembershipPlanType.PREMIUM
-        );
-        savedMembershipPlan.setId(2L);
-        savedMembershipPlan.setGym(gym);
+        MembershipPlan membershipPlan = MembershipPlan.builder()
+                .name("Premium 6M")
+                .type(MembershipPlanType.PREMIUM)
+                .gym(gym)
+                .build();
+
+        MembershipPlan savedMembershipPlan = MembershipPlan.builder()
+                .id(2L)
+                .name("Premium 6M")
+                .type(MembershipPlanType.PREMIUM)
+                .gym(gym)
+                .build();
 
         MembershipPlanCreateRequestDto requestDto = MembershipPlanTestDataFactory.createRequestDto();
         MembershipPlanResponseDto responseDto = MembershipPlanTestDataFactory.createResponseDto(10L);
@@ -100,7 +102,10 @@ class MembershipPlanServiceUnitTest {
                 () -> membershipPlanService.createMembershipPlan(gymId, requestDto)
         );
 
-        assertEquals("Gym with id " + gymId + " not found", exception.getMessage());
+        assertEquals(
+                "Gym with id " + gymId + " not found",
+                exception.getMessage()
+        );
 
         verify(gymService).getGymById(gymId);
         verifyNoInteractions(membershipPlanMapper);
@@ -111,16 +116,18 @@ class MembershipPlanServiceUnitTest {
     void getAllMembershipPlanForGym_shouldReturnAllPlansWhenGymExists() {
         Long gymId = 1L;
 
-        MembershipPlan plan1 = new MembershipPlan();
-        plan1.setId(11L);
-        plan1.setName("Basic 1M");
+        MembershipPlan plan1 = MembershipPlan.builder()
+                .id(11L)
+                .build();
 
-        MembershipPlan plan2 = new MembershipPlan();
-        plan2.setId(12L);
-        plan2.setName("Premium 6M");
+        MembershipPlan plan2 = MembershipPlan.builder()
+                .id(12L)
+                .build();
 
-        MembershipPlanResponseDto dto1 = MembershipPlanTestDataFactory.createResponseDto(11L);
-        MembershipPlanResponseDto dto2 = MembershipPlanTestDataFactory.createResponseDto(12L);
+        MembershipPlanResponseDto dto1 =
+                MembershipPlanTestDataFactory.createResponseDto(11L);
+        MembershipPlanResponseDto dto2 =
+                MembershipPlanTestDataFactory.createResponseDto(12L);
 
         doNothing().when(gymService).validateGymExists(gymId);
         when(membershipPlanRepository.findAllByGymId(gymId))
@@ -130,7 +137,8 @@ class MembershipPlanServiceUnitTest {
         when(membershipPlanMapper.entityToResponseDto(plan2))
                 .thenReturn(dto2);
 
-        List<MembershipPlanResponseDto> result = membershipPlanService.getAllMembershipPlanForGym(gymId);
+        List<MembershipPlanResponseDto> result =
+                membershipPlanService.getAllMembershipPlanForGym(gymId);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -141,7 +149,9 @@ class MembershipPlanServiceUnitTest {
         verify(membershipPlanRepository).findAllByGymId(gymId);
         verify(membershipPlanMapper).entityToResponseDto(plan1);
         verify(membershipPlanMapper).entityToResponseDto(plan2);
-        verifyNoMoreInteractions(gymService, membershipPlanMapper, membershipPlanRepository);
+        verifyNoMoreInteractions(
+                gymService, membershipPlanMapper, membershipPlanRepository
+        );
     }
 
     @Test

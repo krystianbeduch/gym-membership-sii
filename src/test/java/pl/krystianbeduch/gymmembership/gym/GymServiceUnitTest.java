@@ -35,12 +35,10 @@ class GymServiceUnitTest {
 
     @Test
     void createGym_shouldCreateGymWhenNameIsUnique() {
-        GymCreateRequestDto request = GymTestDataFactory.createRequestDto();
+        GymCreateRequestDto requestDto = GymTestDataFactory.createRequestDto();
 
         Gym gym = new Gym();
-        Gym savedGym = new Gym();
-        savedGym.setId(1L);
-        savedGym.setName("Gym");
+        Gym savedGym = Gym.builder().id(1L).name("Gym").build();
 
         GymResponseDto responseDto = new GymResponseDto(
             1L,
@@ -49,53 +47,52 @@ class GymServiceUnitTest {
             null
         );
 
-        when(gymRepository.existsByName(request.name()))
+        when(gymRepository.existsByName(requestDto.name()))
                 .thenReturn(false);
-        when(gymMapper.requestDtoToEntity(request))
+        when(gymMapper.requestDtoToEntity(requestDto))
                 .thenReturn(gym);
         when(gymRepository.save(gym))
                 .thenReturn(savedGym);
         when(gymMapper.entityToResponseDto(savedGym))
                 .thenReturn(responseDto);
 
-        GymResponseDto result = gymService.createGym(request);
+        GymResponseDto result = gymService.createGym(requestDto);
 
         assertNotNull(result);
         assertEquals(1L, result.id());
         assertEquals("Gym", result.name());
 
-        verify(gymRepository).existsByName(request.name());
-        verify(gymMapper).requestDtoToEntity(request);
+        verify(gymRepository).existsByName(requestDto.name());
+        verify(gymMapper).requestDtoToEntity(requestDto);
         verify(gymRepository).save(gym);
         verifyNoMoreInteractions(gymRepository, gymMapper);
     }
 
     @Test
     void createGym_shouldThrowGymNameAlreadyExistsExceptionWhenNameExists() {
-        GymCreateRequestDto request = GymTestDataFactory.createRequestDto();
+        GymCreateRequestDto requestDto = GymTestDataFactory.createRequestDto();
 
-        when(gymRepository.existsByName(request.name())).thenReturn(true);
+        when(gymRepository.existsByName(requestDto.name()))
+                .thenReturn(true);
 
         GymNameAlreadyExistsException exception = assertThrows(
                 GymNameAlreadyExistsException.class,
-                () -> gymService.createGym(request)
+                () -> gymService.createGym(requestDto)
         );
 
-        assertEquals("Gym with name '" + request.name() + "' already exists", exception.getMessage());
-        verify(gymRepository).existsByName(request.name());
+        assertEquals(
+                "Gym with name '" + requestDto.name() + "' already exists",
+                exception.getMessage()
+        );
+        verify(gymRepository).existsByName(requestDto.name());
         verifyNoInteractions(gymMapper);
         verify(gymRepository, never()).save(any());
     }
 
     @Test
     void getAllGyms_shouldReturnAllGyms() {
-        Gym gym1 = new Gym();
-        gym1.setId(1L);
-        gym1.setName("Gym1");
-
-        Gym gym2 = new Gym();
-        gym2.setId(2L);
-        gym2.setName("Gym2");
+        Gym gym1 = Gym.builder().id(1L).name("Gym-1").build();
+        Gym gym2 = Gym.builder().id(2L).name("Gym-2").build();
 
         GymResponseDto response1 = new GymResponseDto(
                 1L,
@@ -123,15 +120,20 @@ class GymServiceUnitTest {
                 "456"
         );
 
-        when(gymRepository.findAll()).thenReturn(List.of(gym1, gym2));
-        when(gymMapper.entityToResponseDto(gym1)).thenReturn(response1);
-        when(gymMapper.entityToResponseDto(gym2)).thenReturn(response2);
+        when(gymRepository.findAll())
+                .thenReturn(List.of(gym1, gym2));
+        when(gymMapper.entityToResponseDto(gym1))
+                .thenReturn(response1);
+        when(gymMapper.entityToResponseDto(gym2))
+                .thenReturn(response2);
 
         List<GymResponseDto> result = gymService.getAllGyms();
 
         assertEquals(2, result.size());
-        assertEquals("Gym1", result.get(0).name());
-        assertEquals("Gym2", result.get(1).name());
+        assertEquals(1L, result.get(0).id());
+        assertEquals(2L, result.get(1).id());
+        assertEquals("Gym-1", result.get(0).name());
+        assertEquals("Gym-2", result.get(1).name());
         verify(gymRepository).findAll();
         verify(gymMapper).entityToResponseDto(gym1);
         verify(gymMapper).entityToResponseDto(gym2);

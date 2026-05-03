@@ -143,14 +143,12 @@ public class DbInit implements CommandLineRunner {
                     "Oliver",
                     "Bennett",
                     "oliver.bennett@example.com",
-                    MemberStatus.ACTIVE,
                     pureStarter
             ),
             new Member(
                     "Amelia",
                     "Carter",
                     "amelia.carter@example.com",
-                    MemberStatus.ACTIVE,
                     pureStarter
             ),
             new Member(
@@ -165,14 +163,12 @@ public class DbInit implements CommandLineRunner {
                     "Lukas",
                     "Neumann",
                     "lukas.neumann@example.com",
-                    MemberStatus.ACTIVE,
                     mcBasic
             ),
             new Member(
                     "Hannah",
                     "Fischer",
                     "hannah.fischer@example.com",
-                    MemberStatus.ACTIVE,
                     mcBasic
             ),
             new Member(
@@ -187,14 +183,12 @@ public class DbInit implements CommandLineRunner {
                     "Mila",
                     "Schneider",
                     "mila.schneider@example.com",
-                    MemberStatus.ACTIVE,
                     mcPremium
             ),
             new Member(
                     "Noah",
                     "Krause",
                     "noah.krause@example.com",
-                    MemberStatus.ACTIVE,
                     mcPremium
             ),
             new Member(
@@ -209,14 +203,12 @@ public class DbInit implements CommandLineRunner {
                     "Kacper",
                     "Nowicki",
                     "kacper.nowicki@example.com",
-                    MemberStatus.ACTIVE,
                     mcElite
             ),
             new Member(
                     "Zuzanna",
                     "Wrobel",
                     "zuzanna.wrobel@example.com",
-                    MemberStatus.ACTIVE,
                     mcElite
             ),
             new Member(
@@ -231,7 +223,6 @@ public class DbInit implements CommandLineRunner {
                     "Jakub",
                     "Kowalczyk",
                     "jakub.kowalczyk@example.com",
-                    MemberStatus.ACTIVE,
                     fabrykaDuo
             ),
             new Member(

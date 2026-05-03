@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.krystianbeduch.gymmembership.gym.exception.GymNameAlreadyExistsException;
 import pl.krystianbeduch.gymmembership.member.dto.MemberRegisterToMembershipRequestDto;
 import pl.krystianbeduch.gymmembership.member.dto.MemberResponseDto;
 import pl.krystianbeduch.gymmembership.member.entity.Member;

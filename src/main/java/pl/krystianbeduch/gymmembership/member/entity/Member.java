@@ -1,10 +1,7 @@
 package pl.krystianbeduch.gymmembership.member.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import pl.krystianbeduch.gymmembership.membership.entity.MembershipPlan;
 import pl.krystianbeduch.gymmembership.membership.enums.MemberStatus;
@@ -13,6 +10,7 @@ import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
@@ -36,13 +34,21 @@ public class Member {
     @Column(nullable = false, updatable = false)
     private LocalDate membershipStartDate;
 
+    @Builder.Default
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 15)
-    private MemberStatus memberStatus;
+    private MemberStatus memberStatus = MemberStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "membership_plan_id", nullable = false)
     private MembershipPlan membershipPlan;
+
+    public Member(String firstName, String lastName, String email, MembershipPlan membershipPlan) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.membershipPlan = membershipPlan;
+    }
 
     public Member(String firstName, String lastName, String email, MemberStatus memberStatus, MembershipPlan membershipPlan) {
         this.firstName = firstName;

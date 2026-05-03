@@ -1,10 +1,7 @@
 package pl.krystianbeduch.gymmembership.membership.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.krystianbeduch.gymmembership.gym.entity.Gym;
 import pl.krystianbeduch.gymmembership.member.entity.Member;
 import pl.krystianbeduch.gymmembership.membership.enums.MembershipPlanType;
@@ -14,6 +11,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
@@ -44,13 +42,9 @@ public class MembershipPlan {
     @JoinColumn(name = "gym_id", nullable = false)
     private Gym gym;
 
+    @Builder.Default
     @OneToMany(mappedBy = "membershipPlan")
     private List<Member> members = new ArrayList<>();
-
-    public MembershipPlan(String name, MembershipPlanType type) {
-        this.name = name;
-        this.type = type;
-    }
 
     public MembershipPlan(String name, MembershipPlanType type, Money monthlyPrice, Integer durationInMonths, Integer maxMembers, Gym gym) {
         this.name = name;
