@@ -51,4 +51,13 @@ public class MembershipPlan {
         this.name = name;
         this.type = type;
     }
+
+    public MembershipPlan(String name, MembershipPlanType type, Money monthlyPrice, Integer durationInMonths, Integer maxMembers, Gym gym) {
+        this.name = name;
+        this.type = type;
+        this.monthlyPrice = monthlyPrice;
+        this.durationInMonths = durationInMonths;
+        this.maxMembers = maxMembers;
+        this.gym = gym;
+    }
 }
