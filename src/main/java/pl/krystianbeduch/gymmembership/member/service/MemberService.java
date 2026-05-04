@@ -38,7 +38,9 @@ public class MemberService {
                 membershipPlanId, requestDto.email()
         );
 
-        if (memberRepository.existsByEmail(requestDto.email())) {
+        if (memberRepository.existsByEmailAndMemberStatus(
+                requestDto.email(), MemberStatus.ACTIVE
+        )) {
             log.warn(
                     "Register member failed. Member with email={} already exists",
                     requestDto.email()

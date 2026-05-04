@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    boolean existsByEmail(String email);
+    boolean existsByEmailAndMemberStatus(String email, MemberStatus memberStatus);
 
     long countByMembershipPlanIdAndMemberStatus(
             Long membershipPlanId, MemberStatus memberStatus

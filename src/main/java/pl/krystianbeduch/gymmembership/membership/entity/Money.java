@@ -19,13 +19,9 @@ import java.util.Currency;
 public class Money {
 
     @Column(name = "monthly_price_amount", nullable = false, precision = 10, scale = 2)
-    // NotNull
-    // @DecimalMin(value = "0.01"
     private BigDecimal amount;
 
     @Column(name = "monthly_price_currency", nullable = false, length = 3)
-    // NotBlank
-    // Size min 3 max 3
     private String currencyCode;
 
     public Currency getCurrency() {

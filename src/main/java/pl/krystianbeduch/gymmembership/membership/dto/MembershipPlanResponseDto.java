@@ -16,4 +16,4 @@ public record MembershipPlanResponseDto(
         String monthlyPriceCurrencyCode,
         Integer durationInMonths,
         Integer maxMembers
-) {}
+) { }

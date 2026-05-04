@@ -27,7 +27,7 @@ public class Member {
     @Column(nullable = false, length = 64)
     private String lastName;
 
-    @Column(nullable = false, length = 100, unique = true)
+    @Column(nullable = false, length = 100)
     private String email;
 
     @CreationTimestamp
@@ -42,21 +42,6 @@ public class Member {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "membership_plan_id", nullable = false)
     private MembershipPlan membershipPlan;
-
-    public Member(String firstName, String lastName, String email, MembershipPlan membershipPlan) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.membershipPlan = membershipPlan;
-    }
-
-    public Member(String firstName, String lastName, String email, MemberStatus memberStatus, MembershipPlan membershipPlan) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.memberStatus = memberStatus;
-        this.membershipPlan = membershipPlan;
-    }
 
     public void cancelMembership() {
         memberStatus = MemberStatus.CANCELLED;

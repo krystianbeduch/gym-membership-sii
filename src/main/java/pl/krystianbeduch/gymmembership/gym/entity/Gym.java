@@ -32,15 +32,4 @@ public class Gym {
     @Builder.Default
     @OneToMany(mappedBy = "gym", cascade = CascadeType.ALL)
     private List<MembershipPlan> membershipPlan = new ArrayList<>();
-
-    public Gym(String name, GymAddress gymAddress, String phoneNumber) {
-        this.name = name;
-        this.gymAddress = gymAddress;
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Gym(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }

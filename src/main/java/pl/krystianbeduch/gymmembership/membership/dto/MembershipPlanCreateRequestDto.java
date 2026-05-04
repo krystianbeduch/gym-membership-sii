@@ -33,4 +33,4 @@ public record MembershipPlanCreateRequestDto (
         @Positive(message = "{membershipPlan.maxMembers.positive}")
         @Max(value = 999, message = "{membershipPlan.maxMembers.max}")
         Integer maxMembers
-) {}
+) { }

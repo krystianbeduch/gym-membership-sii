@@ -45,13 +45,4 @@ public class MembershipPlan {
     @Builder.Default
     @OneToMany(mappedBy = "membershipPlan")
     private List<Member> members = new ArrayList<>();
-
-    public MembershipPlan(String name, MembershipPlanType type, Money monthlyPrice, Integer durationInMonths, Integer maxMembers, Gym gym) {
-        this.name = name;
-        this.type = type;
-        this.monthlyPrice = monthlyPrice;
-        this.durationInMonths = durationInMonths;
-        this.maxMembers = maxMembers;
-        this.gym = gym;
-    }
 }

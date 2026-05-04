@@ -159,8 +159,7 @@ class MembershipFlowE2ETest {
         ResponseEntity<List<MembershipPlanResponseDto>> response = restClient.get()
                 .uri("/gyms/{gymId}/membership-plans", createdGymId)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<>() {
-                });
+                .toEntity(new ParameterizedTypeReference<>() {});
 
         List<MembershipPlanResponseDto> body = response.getBody();
 
@@ -540,8 +539,6 @@ class MembershipFlowE2ETest {
     @Test
     @Order(22)
     void registerMemberToMembershipPlan_shouldReturnConflictWhenMembershipPlanCapacityIsReached() {
-
-
         MembershipPlanCreateRequestDto request = MembershipPlanCreateRequestDto.builder()
                 .name("Limited Plan")
                 .type(MembershipPlanType.BASIC)

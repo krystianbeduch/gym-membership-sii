@@ -65,8 +65,9 @@ class MemberServiceUnitTest {
                 100L, "john.doe@example.com"
         );
 
-        when(memberRepository.existsByEmail(requestDto.email()))
-                .thenReturn(false);
+        when(memberRepository.existsByEmailAndMemberStatus(
+                requestDto.email(), MemberStatus.ACTIVE)
+        ).thenReturn(false);
         when(membershipPlanService.getMembershipPlanById(membershipPlanId))
                 .thenReturn(membershipPlan);
         when(memberRepository.countByMembershipPlanIdAndMemberStatus(
@@ -88,7 +89,9 @@ class MemberServiceUnitTest {
         assertEquals(requestDto.email(), result.email());
         assertEquals(MemberStatus.ACTIVE, result.memberStatus());
 
-        verify(memberRepository).existsByEmail(requestDto.email());
+        verify(memberRepository).existsByEmailAndMemberStatus(
+                requestDto.email(), MemberStatus.ACTIVE
+        );
         verify(membershipPlanService).getMembershipPlanById(membershipPlanId);
         verify(memberRepository).countByMembershipPlanIdAndMemberStatus(
                 membershipPlanId, MemberStatus.ACTIVE
@@ -100,12 +103,13 @@ class MemberServiceUnitTest {
     }
 
     @Test
-    void registerMemberToMembershipPlan_shouldThrowMemberEmailAlreadyExistsExceptionWhenEmailExists() {
+    void registerMemberToMembershipPlan_shouldThrowMemberEmailAlreadyExistsExceptionWhenActiveMemberWithEmailExists() {
         Long membershipPlanId = 1L;
         MemberRegisterToMembershipRequestDto requestDto = MemberTestDataFactory.createMemberRegisterRequestDto();
 
-        when(memberRepository.existsByEmail(requestDto.email()))
-                .thenReturn(true);
+        when(memberRepository.existsByEmailAndMemberStatus(
+                requestDto.email(), MemberStatus.ACTIVE)
+        ).thenReturn(true);
 
         MemberEmailAlreadyExistsException exception = assertThrows(
                 MemberEmailAlreadyExistsException.class,
@@ -118,11 +122,87 @@ class MemberServiceUnitTest {
                 "Member with email '" + requestDto.email() + "' already exists",
                 exception.getMessage()
         );
-        verify(memberRepository).existsByEmail(requestDto.email());
+        verify(memberRepository).existsByEmailAndMemberStatus(
+                requestDto.email(), MemberStatus.ACTIVE
+        );
         verifyNoInteractions(membershipPlanService);
         verify(memberRepository, never()).countByMembershipPlanIdAndMemberStatus(anyLong(), any());
         verify(memberRepository, never()).save(any());
         verifyNoInteractions(memberMapper);
+    }
+
+    @Test
+    void registerMemberToMembershipPlan_shouldRegisterMemberSuccessfullyWhenEmailExistsOnlyForCancelledMember() {
+        Long membershipPlanId = 1L;
+        MemberRegisterToMembershipRequestDto requestDto =
+                MemberTestDataFactory.createMemberRegisterRequestDto();
+
+        MembershipPlan membershipPlan = MembershipPlan.builder()
+                .id(membershipPlanId)
+                .maxMembers(100)
+                .build();
+
+        Member member = Member.builder()
+                .email(requestDto.email())
+                .membershipPlan(membershipPlan)
+                .memberStatus(MemberStatus.ACTIVE)
+                .build();
+
+        Member savedMember = Member.builder()
+                .id(101L)
+                .email(requestDto.email())
+                .membershipPlan(membershipPlan)
+                .memberStatus(MemberStatus.ACTIVE)
+                .build();
+
+        MemberResponseDto responseDto = MemberTestDataFactory.createMemberResponseDto(
+                101L, requestDto.email()
+        );
+
+        when(memberRepository.existsByEmailAndMemberStatus(
+                requestDto.email(),
+                MemberStatus.ACTIVE
+        )).thenReturn(false);
+
+        when(membershipPlanService.getMembershipPlanById(membershipPlanId))
+                .thenReturn(membershipPlan);
+
+        when(memberRepository.countByMembershipPlanIdAndMemberStatus(
+                membershipPlanId,
+                MemberStatus.ACTIVE
+        )).thenReturn(10L);
+
+        when(memberMapper.requestDtoToEntity(requestDto, membershipPlan))
+                .thenReturn(member);
+
+        when(memberRepository.save(member))
+                .thenReturn(savedMember);
+
+        when(memberMapper.entityToResponseDto(savedMember))
+                .thenReturn(responseDto);
+
+        MemberResponseDto result = memberService.registerMemberToMembershipPlan(
+                membershipPlanId, requestDto
+        );
+
+        assertNotNull(result);
+        assertEquals(101L, result.id());
+        assertEquals(requestDto.email(), result.email());
+        assertEquals(MemberStatus.ACTIVE, result.memberStatus());
+
+        verify(memberRepository).existsByEmailAndMemberStatus(
+                requestDto.email(),
+                MemberStatus.ACTIVE
+        );
+        verify(membershipPlanService).getMembershipPlanById(membershipPlanId);
+        verify(memberRepository).countByMembershipPlanIdAndMemberStatus(
+                membershipPlanId,
+                MemberStatus.ACTIVE
+        );
+        verify(memberMapper).requestDtoToEntity(requestDto, membershipPlan);
+        verify(memberRepository).save(member);
+        verify(memberMapper).entityToResponseDto(savedMember);
+        verifyNoMoreInteractions(memberRepository, memberMapper, membershipPlanService);
     }
 
     @Test
@@ -135,8 +215,9 @@ class MemberServiceUnitTest {
                 .maxMembers(150)
                 .build();
 
-        when(memberRepository.existsByEmail(requestDto.email()))
-                .thenReturn(false);
+        when(memberRepository.existsByEmailAndMemberStatus(
+                requestDto.email(), MemberStatus.ACTIVE)
+        ).thenReturn(false);
         when(membershipPlanService.getMembershipPlanById(membershipPlanId))
                 .thenReturn(membershipPlan);
         when(memberRepository.countByMembershipPlanIdAndMemberStatus(
@@ -155,7 +236,9 @@ class MemberServiceUnitTest {
                 exception.getMessage()
         );
 
-        verify(memberRepository).existsByEmail(requestDto.email());
+        verify(memberRepository).existsByEmailAndMemberStatus(
+                requestDto.email(), MemberStatus.ACTIVE
+        );
         verify(membershipPlanService).getMembershipPlanById(membershipPlanId);
         verify(memberRepository).countByMembershipPlanIdAndMemberStatus(
                 membershipPlanId, MemberStatus.ACTIVE
