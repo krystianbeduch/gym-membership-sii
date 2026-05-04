@@ -91,24 +91,28 @@ class MembershipPlanServiceIntegrationTest {
                 GymTestDataFactory.createGym()
         );
 
-        MembershipPlan plan1 = new MembershipPlan();
-        plan1.setName("Basic 1M");
-        plan1.setType(MembershipPlanType.BASIC);
-        plan1.setMonthlyPrice(new Money(
-                new BigDecimal("99.99"), Currency.getInstance("PLN")
-        ));
-        plan1.setDurationInMonths(1);
-        plan1.setMaxMembers(100);
-        plan1.setGym(savedGym);
+        MembershipPlan plan1 = MembershipPlan.builder()
+                .name("Basic 1M")
+                .type(MembershipPlanType.BASIC)
+                .monthlyPrice(new Money(
+                        new BigDecimal("99.99"), Currency.getInstance("PLN")
+                ))
+                .durationInMonths(1)
+                .maxMembers(100)
+                .gym(savedGym)
+                .build();
 
-        MembershipPlan plan2 = new MembershipPlan();
-        plan2.setName("Premium 12M");
-        plan2.setType(MembershipPlanType.PREMIUM);
-        plan2.setMonthlyPrice(new Money(
-                new BigDecimal("999.99"), Currency.getInstance("PLN")
-        ));
-        plan2.setDurationInMonths(12);
-        plan2.setMaxMembers(200);
+        MembershipPlan plan2 = MembershipPlan.builder()
+                .name("Premium 12M")
+                .type(MembershipPlanType.PREMIUM)
+                .monthlyPrice(new Money(
+                        new BigDecimal("999.99"), Currency.getInstance("PLN")
+                ))
+                .durationInMonths(21)
+                .maxMembers(200)
+                .gym(savedGym)
+                .build();
+        
         plan2.setGym(savedGym);
 
         membershipPlanRepository.save(plan1);

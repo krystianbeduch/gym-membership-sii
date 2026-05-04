@@ -10,15 +10,8 @@ public final class MemberTestDataFactory {
 
     private MemberTestDataFactory() {}
 
-    public static Member createMember(
-            String email, MembershipPlan plan
-    ) {
-        return Member.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email(email)
-                .membershipPlan(plan)
-                .build();
+    public static MemberRegisterToMembershipRequestDto createMemberRegisterRequestDto() {
+        return createMemberRegisterRequestDto("John");
     }
 
     public static MemberRegisterToMembershipRequestDto createMemberRegisterRequestDto(
@@ -31,10 +24,6 @@ public final class MemberTestDataFactory {
         );
     }
 
-    public static MemberRegisterToMembershipRequestDto createMemberRegisterRequestDto() {
-        return createMemberRegisterRequestDto("John");
-    }
-
     public static MemberResponseDto createMemberResponseDto() {
         return createMemberResponseDto(100L, "john.doe@example.com");
     }
@@ -43,17 +32,16 @@ public final class MemberTestDataFactory {
             Long id,
             String email
     ) {
-        return new MemberResponseDto(
-                 id,
-                "John",
-                "Doe",
-                email,
-                null,
-                MemberStatus.ACTIVE,
-                10L,
-                "Premium Plan",
-                100L,
-                "Gym"
-        );
+        return MemberResponseDto.builder()
+                .id(id)
+                .firstName("John")
+                .lastName("Doe")
+                .email(email)
+                .memberStatus(MemberStatus.ACTIVE)
+                .membershipPlanId(10L)
+                .membershipPlanName("Premium Plan")
+                .gymId(100L)
+                .gymName("Gym")
+                .build();
     }
 }

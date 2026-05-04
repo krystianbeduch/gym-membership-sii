@@ -41,7 +41,7 @@ class MembershipPlanServiceUnitTest {
     @Test
     void createMembershipPlan_shouldCreateMembershipPlanWhenGymExists() {
         Long gymId = 1L;
-        Gym gym = new Gym(1L, "Gym");
+        Gym gym = Gym.builder().id(1L).name("Gym").build();
         MembershipPlan membershipPlan = MembershipPlan.builder()
                 .name("Premium 6M")
                 .type(MembershipPlanType.PREMIUM)

@@ -330,14 +330,8 @@ class MembershipFlowE2ETest {
     @Test
     @Order(12)
     void createMembershipPlan_shouldReturnBadRequestWhenMembershipPlanDurationExceedsMax() {
-        MembershipPlanCreateRequestDto request = new MembershipPlanCreateRequestDto(
-                "Premium 6M",
-                MembershipPlanType.PREMIUM,
-                new BigDecimal("999.99"),
-                "PLN",
-                61,
-                100
-        );
+        MembershipPlanCreateRequestDto request =
+                MembershipPlanTestDataFactory.createRequestDto(61);
 
         RestClientResponseException exception = assertThrows(
                 RestClientResponseException.class,
@@ -546,14 +540,16 @@ class MembershipFlowE2ETest {
     @Test
     @Order(22)
     void registerMemberToMembershipPlan_shouldReturnConflictWhenMembershipPlanCapacityIsReached() {
-        MembershipPlanCreateRequestDto request = new MembershipPlanCreateRequestDto(
-                "Limited Plan",
-                MembershipPlanType.BASIC,
-                new BigDecimal("49.99"),
-                "PLN",
-                1,
-                2
-        );
+
+
+        MembershipPlanCreateRequestDto request = MembershipPlanCreateRequestDto.builder()
+                .name("Limited Plan")
+                .type(MembershipPlanType.BASIC)
+                .monthlyPriceAmount(new BigDecimal("49.99"))
+                .monthlyPriceCurrencyCode("PLN")
+                .durationInMonths(1)
+                .maxMembers(2)
+                .build();
 
         ResponseEntity<MembershipPlanResponseDto> createdPlanResponse = restClient.post()
                 .uri("/gyms/{gymId}/membership-plans", createdGymId)

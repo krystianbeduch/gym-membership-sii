@@ -3,8 +3,10 @@ package pl.krystianbeduch.gymmembership.gym.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import pl.krystianbeduch.gymmembership.gym.enums.Country;
 
+@Builder
 public record GymAddressRequestDto(
         @NotNull(message = "{gym.address.country.notNull}")
         Country country,
@@ -27,4 +29,4 @@ public record GymAddressRequestDto(
 
         @Size(max = 15, message = "{gym.address.apartmentNumber.size}")
         String apartmentNumber
-) {}
+) { }

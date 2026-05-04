@@ -1,7 +1,9 @@
 package pl.krystianbeduch.gymmembership.gym.dto;
 
+import lombok.Builder;
 import pl.krystianbeduch.gymmembership.gym.enums.Country;
 
+@Builder
 public record GymAddressResponseDto(
         Country country,
         String city,
@@ -9,4 +11,4 @@ public record GymAddressResponseDto(
         String street,
         String buildingNumber,
         String apartmentNumber
-) {}
+) { }

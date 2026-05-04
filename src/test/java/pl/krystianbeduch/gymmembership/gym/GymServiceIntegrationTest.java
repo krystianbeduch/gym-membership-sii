@@ -77,7 +77,11 @@ class GymServiceIntegrationTest {
         List<GymResponseDto> result = gymService.getAllGyms();
 
         assertEquals(2, result.size());
-        assertTrue(result.stream().anyMatch(g -> g.name().equals("Gym-1")));
-        assertTrue(result.stream().anyMatch(g -> g.name().equals("Gym-2")));
+        assertTrue(result.stream().anyMatch(
+                g -> g.name().equals("Gym-1"))
+        );
+        assertTrue(result.stream().anyMatch(
+                g -> g.name().equals("Gym-2"))
+        );
     }
 }

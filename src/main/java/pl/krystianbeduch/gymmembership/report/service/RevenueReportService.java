@@ -11,6 +11,7 @@ import pl.krystianbeduch.gymmembership.report.dto.RevenueReportResponseDto;
 import pl.krystianbeduch.gymmembership.report.exception.InvalidReportMonthFormatException;
 
 import java.math.BigDecimal;
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -28,6 +29,7 @@ public class RevenueReportService {
     private static final DateTimeFormatter MONTH_FORMATTER =
             DateTimeFormatter.ofPattern("MM-yyyy");
     private final MemberService memberService;
+    private final Clock clock;
 
     public List<RevenueReportResponseDto> getMonthlyRevenueReport(
             String month
@@ -66,7 +68,7 @@ public class RevenueReportService {
 
     private YearMonth parseMonth(String month) {
         if (month == null || month.isBlank()) {
-            return YearMonth.now();
+            return YearMonth.now(clock);
         }
         try {
             return YearMonth.parse(month, MONTH_FORMATTER);

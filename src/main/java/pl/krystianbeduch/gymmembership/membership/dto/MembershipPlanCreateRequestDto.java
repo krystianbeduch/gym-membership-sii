@@ -1,10 +1,12 @@
 package pl.krystianbeduch.gymmembership.membership.dto;
 
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import pl.krystianbeduch.gymmembership.membership.enums.MembershipPlanType;
 
 import java.math.BigDecimal;
 
+@Builder
 public record MembershipPlanCreateRequestDto (
         @NotBlank(message = "{membershipPlan.name.notBlank}")
         @Size(max = 100, message = "{membershipPlan.name.size}")
@@ -31,4 +33,4 @@ public record MembershipPlanCreateRequestDto (
         @Positive(message = "{membershipPlan.maxMembers.positive}")
         @Max(value = 999, message = "{membershipPlan.maxMembers.max}")
         Integer maxMembers
-){ }
+) {}

@@ -17,18 +17,17 @@ public final class GymTestDataFactory {
     }
 
     public static Gym createGym(String name) {
-        return new Gym(
-                name,
-                new GymAddress(
-                        Country.POLAND,
-                        "City",
-                        "11-111",
-                        "Street",
-                        "1",
-                        null
-                ),
-                "123"
-        );
+        return Gym.builder()
+                .name(name)
+                .gymAddress(GymAddress.builder()
+                        .country(Country.POLAND)
+                        .city("City")
+                        .postalCode("11-111")
+                        .street("Street")
+                        .buildingNumber("1")
+                        .build())
+                .phoneNumber("123")
+                .build();
     }
 
     public static GymCreateRequestDto createRequestDto() {
@@ -36,17 +35,16 @@ public final class GymTestDataFactory {
     }
 
     public static GymCreateRequestDto createRequestDto(String name) {
-        return new GymCreateRequestDto(
-                name,
-                new GymAddressRequestDto(
-                        Country.POLAND,
-                        "City",
-                        "11-111",
-                        "Street",
-                        "1",
-                        null
-                ),
-                "123"
-        );
+        return GymCreateRequestDto.builder()
+                .name(name)
+                .gymAddress(GymAddressRequestDto.builder()
+                        .country(Country.POLAND)
+                        .city("City")
+                        .postalCode("11-111")
+                        .street("Street")
+                        .buildingNumber("1")
+                        .build())
+                .phoneNumber("123")
+                .build();
     }
 }

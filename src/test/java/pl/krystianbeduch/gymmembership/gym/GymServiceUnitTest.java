@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import pl.krystianbeduch.gymmembership.gym.dto.GymAddressRequestDto;
 import pl.krystianbeduch.gymmembership.gym.dto.GymAddressResponseDto;
 import pl.krystianbeduch.gymmembership.gym.dto.GymCreateRequestDto;
 import pl.krystianbeduch.gymmembership.gym.dto.GymResponseDto;
@@ -38,14 +39,14 @@ class GymServiceUnitTest {
         GymCreateRequestDto requestDto = GymTestDataFactory.createRequestDto();
 
         Gym gym = new Gym();
-        Gym savedGym = Gym.builder().id(1L).name("Gym").build();
-
-        GymResponseDto responseDto = new GymResponseDto(
-            1L,
-            "Gym",
-            null,
-            null
-        );
+        Gym savedGym = Gym.builder()
+                .id(1L)
+                .name("Gym")
+                .build();
+        GymResponseDto responseDto = GymResponseDto.builder()
+                .id(1L)
+                .name("Gym")
+                .build();
 
         when(gymRepository.existsByName(requestDto.name()))
                 .thenReturn(false);
@@ -94,31 +95,31 @@ class GymServiceUnitTest {
         Gym gym1 = Gym.builder().id(1L).name("Gym-1").build();
         Gym gym2 = Gym.builder().id(2L).name("Gym-2").build();
 
-        GymResponseDto response1 = new GymResponseDto(
-                1L,
-                "Gym-1",
-                new GymAddressResponseDto(
-                        Country.POLAND,
-                        "City1",
-                        "11-111",
-                        "Street1",
-                        "1",
-                        null),
-                "123"
-        );
+        GymResponseDto response1 = GymResponseDto.builder()
+                .id(1L)
+                .name("Gym-1")
+                .gymAddress(GymAddressResponseDto.builder()
+                        .country(Country.POLAND)
+                        .city("City1")
+                        .postalCode("11-111")
+                        .street("Street1")
+                        .buildingNumber("1")
+                        .build())
+                .phoneNumber("123")
+                .build();
 
-        GymResponseDto response2 = new GymResponseDto(
-                2L,
-                "Gym-2",
-                new GymAddressResponseDto(
-                        Country.POLAND,
-                        "City2",
-                        "22-222",
-                        "Street2",
-                        "2",
-                        null),
-                "456"
-        );
+        GymResponseDto response2 = GymResponseDto.builder()
+                .id(2L)
+                .name("Gym-2")
+                .gymAddress(GymAddressResponseDto.builder()
+                        .country(Country.POLAND)
+                        .city("City2")
+                        .postalCode("22-222")
+                        .street("Street2")
+                        .buildingNumber("2")
+                        .build())
+                .phoneNumber("456")
+                .build();
 
         when(gymRepository.findAll())
                 .thenReturn(List.of(gym1, gym2));

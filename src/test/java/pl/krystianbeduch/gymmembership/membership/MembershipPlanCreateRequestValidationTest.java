@@ -42,14 +42,15 @@ class MembershipPlanCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenNameIsNull() {
-        MembershipPlanCreateRequestDto request = new MembershipPlanCreateRequestDto(
-                null,
-                MembershipPlanType.PREMIUM,
-                new BigDecimal("999.99"),
-                "PLN",
-                6,
-                100
-        );
+        MembershipPlanCreateRequestDto request = MembershipPlanCreateRequestDto.builder()
+                .name(null)
+                .type(MembershipPlanType.PREMIUM)
+                .monthlyPriceAmount(new BigDecimal("999.99"))
+                .monthlyPriceCurrencyCode("PLN")
+                .durationInMonths(6)
+                .maxMembers(100)
+                .build();
+
         Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -62,14 +63,15 @@ class MembershipPlanCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenNameIsBlank() {
-        MembershipPlanCreateRequestDto request = new MembershipPlanCreateRequestDto(
-                "   ",
-                MembershipPlanType.PREMIUM,
-                new BigDecimal("999.99"),
-                "PLN",
-                6,
-                100
-        );
+        MembershipPlanCreateRequestDto request = MembershipPlanCreateRequestDto.builder()
+                .name("  ")
+                .type(MembershipPlanType.PREMIUM)
+                .monthlyPriceAmount(new BigDecimal("999.99"))
+                .monthlyPriceCurrencyCode("PLN")
+                .durationInMonths(6)
+                .maxMembers(100)
+                .build();
+
         Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -82,14 +84,15 @@ class MembershipPlanCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenNameExceedsMaxSize() {
-        MembershipPlanCreateRequestDto request = new MembershipPlanCreateRequestDto(
-                "a".repeat(NAME_MAX_SIZE + 1),
-                MembershipPlanType.PREMIUM,
-                new BigDecimal("999.99"),
-                "PLN",
-                6,
-                100
-        );
+        MembershipPlanCreateRequestDto request = MembershipPlanCreateRequestDto.builder()
+                .name("a".repeat(NAME_MAX_SIZE + 1))
+                .type(MembershipPlanType.PREMIUM)
+                .monthlyPriceAmount(new BigDecimal("999.99"))
+                .monthlyPriceCurrencyCode("PLN")
+                .durationInMonths(6)
+                .maxMembers(100)
+                .build();
+
         Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -102,14 +105,15 @@ class MembershipPlanCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenTypeIsNull() {
-        MembershipPlanCreateRequestDto request = new MembershipPlanCreateRequestDto(
-                "Premium 6M",
-                null,
-                new BigDecimal("999.99"),
-                "PLN",
-                6,
-                100
-        );
+        MembershipPlanCreateRequestDto request = MembershipPlanCreateRequestDto.builder()
+                .name("Premium 6M")
+                .type(null)
+                .monthlyPriceAmount(new BigDecimal("999.99"))
+                .monthlyPriceCurrencyCode("PLN")
+                .durationInMonths(6)
+                .maxMembers(100)
+                .build();
+
         Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -122,14 +126,15 @@ class MembershipPlanCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenMonthlyPriceAmountIsNull() {
-        MembershipPlanCreateRequestDto request = new MembershipPlanCreateRequestDto(
-                "Premium 6M",
-                MembershipPlanType.PREMIUM,
-                null,
-                "PLN",
-                6,
-                100
-        );
+                MembershipPlanCreateRequestDto request = MembershipPlanCreateRequestDto.builder()
+                .name("Premium 6M")
+                .type(MembershipPlanType.PREMIUM)
+                .monthlyPriceAmount(null)
+                .monthlyPriceCurrencyCode("PLN")
+                .durationInMonths(6)
+                .maxMembers(100)
+                .build();
+
         Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
                 validator.validate(request);
 

@@ -43,11 +43,12 @@ class GymCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenNameIsNull() {
-        GymCreateRequestDto request = new GymCreateRequestDto(
-                null,
-                validAddress(),
-                "123"
-        );
+        GymCreateRequestDto request = GymCreateRequestDto.builder()
+                .name(null)
+                .gymAddress(validAddress())
+                .phoneNumber("123")
+                .build();
+
         Set<ConstraintViolation<GymCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -60,11 +61,12 @@ class GymCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenNameIsBlank() {
-        GymCreateRequestDto request = new GymCreateRequestDto(
-                "   ",
-                validAddress(),
-                "123"
-        );
+        GymCreateRequestDto request = GymCreateRequestDto.builder()
+                .name("  ")
+                .gymAddress(validAddress())
+                .phoneNumber("123")
+                .build();
+
         Set<ConstraintViolation<GymCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -77,11 +79,12 @@ class GymCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenNameExceedsMaxSize() {
-        GymCreateRequestDto request = new GymCreateRequestDto(
-                "a".repeat(NAME_MAX_SIZE + 1),
-                validAddress(),
-                "123"
-        );
+        GymCreateRequestDto request = GymCreateRequestDto.builder()
+                .name("a".repeat(NAME_MAX_SIZE + 1))
+                .gymAddress(validAddress())
+                .phoneNumber("123")
+                .build();
+
         Set<ConstraintViolation<GymCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -94,11 +97,12 @@ class GymCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenGymAddressIsNull() {
-        GymCreateRequestDto request = new GymCreateRequestDto(
-                uniqueName,
-                null,
-                "123"
-        );
+        GymCreateRequestDto request = GymCreateRequestDto.builder()
+                .name(uniqueName)
+                .gymAddress(null)
+                .phoneNumber("123")
+                .build();
+
         Set<ConstraintViolation<GymCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -111,11 +115,12 @@ class GymCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenPhoneNumberIsBlank() {
-        GymCreateRequestDto request = new GymCreateRequestDto(
-                uniqueName,
-                validAddress(),
-                "   "
-        );
+        GymCreateRequestDto request = GymCreateRequestDto.builder()
+                .name(uniqueName)
+                .gymAddress(validAddress())
+                .phoneNumber("  ")
+                .build();
+
         Set<ConstraintViolation<GymCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -128,11 +133,12 @@ class GymCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenPhoneNumberExceedsMaxSize() {
-        GymCreateRequestDto request = new GymCreateRequestDto(
-                uniqueName,
-                validAddress(),
-                "1".repeat(PHONE_MAX_SIZE + 1)
-        );
+        GymCreateRequestDto request = GymCreateRequestDto.builder()
+                .name(uniqueName)
+                .gymAddress(validAddress())
+                .phoneNumber("1".repeat(PHONE_MAX_SIZE + 1))
+                .build();
+
         Set<ConstraintViolation<GymCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -145,18 +151,18 @@ class GymCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenCityIsBlank() {
-        GymCreateRequestDto request = new GymCreateRequestDto(
-                uniqueName,
-                new GymAddressRequestDto(
-                        Country.POLAND,
-                        "   ",
-                        "11-111",
-                        "Street",
-                        "1",
-                        null
-                ),
-                "123"
-        );
+        GymCreateRequestDto request = GymCreateRequestDto.builder()
+                .name(uniqueName)
+                .gymAddress(GymAddressRequestDto.builder()
+                        .country(Country.POLAND)
+                        .city("  ")
+                        .postalCode("11-111")
+                        .street("Street")
+                        .buildingNumber("1")
+                        .build())
+                .phoneNumber("123")
+                .build();
+
         Set<ConstraintViolation<GymCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -169,18 +175,18 @@ class GymCreateRequestValidationTest {
 
      @Test
     void shouldFailValidation_whenCountryIsNull() {
-        GymCreateRequestDto request = new GymCreateRequestDto(
-                uniqueName,
-                new GymAddressRequestDto(
-                        null,
-                        "City",
-                        "11-111",
-                        "Street",
-                        "1",
-                        null
-                ),
-                "123"
-        );
+        GymCreateRequestDto request = GymCreateRequestDto.builder()
+                .name(uniqueName)
+                .gymAddress(GymAddressRequestDto.builder()
+                        .country(null)
+                        .city("City")
+                        .postalCode("11-111")
+                        .street("Street")
+                        .buildingNumber("1")
+                        .build())
+                .phoneNumber("123")
+                .build();
+
         Set<ConstraintViolation<GymCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -193,18 +199,18 @@ class GymCreateRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenPostalCodeExceedsMaxSize() {
-        GymCreateRequestDto request = new GymCreateRequestDto(
-                uniqueName,
-                new GymAddressRequestDto(
-                        Country.POLAND,
-                        "City",
-                        "1".repeat(POSTAL_CODE_MAX_SIZE + 1),
-                        "Street",
-                        "1",
-                        null
-                ),
-                "123"
-        );
+        GymCreateRequestDto request = GymCreateRequestDto.builder()
+                .name(uniqueName)
+                .gymAddress(GymAddressRequestDto.builder()
+                        .country(Country.POLAND)
+                        .city("City")
+                        .postalCode("1".repeat(POSTAL_CODE_MAX_SIZE + 1))
+                        .street("Street")
+                        .buildingNumber("1")
+                        .build())
+                .phoneNumber("123")
+                .build();
+
         Set<ConstraintViolation<GymCreateRequestDto>> violations =
                 validator.validate(request);
 
@@ -216,21 +222,20 @@ class GymCreateRequestValidationTest {
     }
 
     private GymCreateRequestDto validRequest() {
-        return new GymCreateRequestDto(
-                uniqueName,
-                validAddress(),
-                "123"
-        );
+        return GymCreateRequestDto.builder()
+                .name(uniqueName)
+                .gymAddress(validAddress())
+                .phoneNumber("123")
+                .build();
     }
 
     private GymAddressRequestDto validAddress() {
-        return new GymAddressRequestDto(
-                Country.POLAND,
-                "City",
-                "11-111",
-                "Street",
-                "1",
-                null
-        );
+        return GymAddressRequestDto.builder()
+                .country(Country.POLAND)
+                .city("City")
+                .postalCode("11-111")
+                .street("Street")
+                .buildingNumber("1")
+                .build();
     }
 }

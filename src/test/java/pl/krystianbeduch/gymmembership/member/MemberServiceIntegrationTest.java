@@ -16,13 +16,17 @@ import pl.krystianbeduch.gymmembership.member.exception.MemberNotFoundException;
 import pl.krystianbeduch.gymmembership.member.repository.MemberRepository;
 import pl.krystianbeduch.gymmembership.member.service.MemberService;
 import pl.krystianbeduch.gymmembership.membership.entity.MembershipPlan;
+import pl.krystianbeduch.gymmembership.membership.entity.Money;
 import pl.krystianbeduch.gymmembership.membership.enums.MemberStatus;
+import pl.krystianbeduch.gymmembership.membership.enums.MembershipPlanType;
 import pl.krystianbeduch.gymmembership.membership.exception.MembershipPlanCapacityExceededException;
 import pl.krystianbeduch.gymmembership.membership.repository.MembershipPlanRepository;
 import pl.krystianbeduch.gymmembership.testdata.GymTestDataFactory;
 import pl.krystianbeduch.gymmembership.testdata.MemberTestDataFactory;
 import pl.krystianbeduch.gymmembership.testdata.MembershipPlanTestDataFactory;
 
+import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.List;
 import java.util.UUID;
 
@@ -182,28 +186,36 @@ class MemberServiceIntegrationTest {
     }
 
     private Member saveMember(MembershipPlan plan) {
-        String randomEmail = UUID.randomUUID() + "@example.com";
-
-        return memberRepository.save(
-                MemberTestDataFactory.createMember(
-                        randomEmail, plan
-                )
+        return saveMember(
+                UUID.randomUUID() + "@example.com",
+                plan
         );
     }
 
-    private void saveMember(String email, MembershipPlan plan) {
-        memberRepository.save(
-                MemberTestDataFactory.createMember(
-                        email, plan
-                )
+    private Member saveMember(String email, MembershipPlan plan) {
+        return memberRepository.save(
+                Member.builder()
+                        .firstName("John")
+                        .lastName("Doe")
+                        .email(email)
+                        .membershipPlan(plan)
+                        .build()
         );
     }
 
     private MembershipPlan saveMembershipPlan(int maxMembers) {
         return membershipPlanRepository.save(
-                MembershipPlanTestDataFactory.createMembershipPlan(
-                        maxMembers, gym
-                )
+                MembershipPlan.builder()
+                        .name("Premium 6M")
+                        .type(MembershipPlanType.PREMIUM)
+                        .monthlyPrice(new Money(
+                                new BigDecimal("99.99"),
+                                Currency.getInstance("PLN"))
+                        )
+                        .durationInMonths(1)
+                        .maxMembers(maxMembers)
+                        .gym(gym)
+                        .build()
         );
     }
 }
