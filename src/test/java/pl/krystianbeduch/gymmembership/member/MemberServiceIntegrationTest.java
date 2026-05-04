@@ -48,7 +48,7 @@ class MemberServiceIntegrationTest {
     private Gym gym;
 
     @BeforeEach
-    void cleanDb() {
+    void setUp() {
         memberRepository.deleteAll();
         membershipPlanRepository.deleteAll();
         gymRepository.deleteAll();

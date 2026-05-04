@@ -21,12 +21,18 @@ public final class MemberTestDataFactory {
                 .build();
     }
 
-    public static MemberRegisterToMembershipRequestDto createMemberRegisterRequestDto() {
+    public static MemberRegisterToMembershipRequestDto createMemberRegisterRequestDto(
+            String firstName
+    ) {
         return new MemberRegisterToMembershipRequestDto(
-                "John",
+                firstName,
                 "Doe",
                 "john.doe@example.com"
         );
+    }
+
+    public static MemberRegisterToMembershipRequestDto createMemberRegisterRequestDto() {
+        return createMemberRegisterRequestDto("John");
     }
 
     public static MemberResponseDto createMemberResponseDto() {

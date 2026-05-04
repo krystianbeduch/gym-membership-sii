@@ -73,11 +73,7 @@ class MemberControllerUnitTest {
     void registerMemberToMembershipPlan_shouldReturn400_whenRequestBodyIsInvalid() throws Exception {
         Long membershipPlanId = 1L;
         MemberRegisterToMembershipRequestDto request =
-                new MemberRegisterToMembershipRequestDto(
-                        "   ",
-                        "Doe",
-                        "john.doe@example.com"
-                );
+                MemberTestDataFactory.createMemberRegisterRequestDto("  ");
 
         mockMvc.perform(post(REGISTER_MEMBER_API_URL, membershipPlanId)
                         .contentType(MediaType.APPLICATION_JSON)

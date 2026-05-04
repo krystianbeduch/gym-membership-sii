@@ -38,11 +38,8 @@ class MemberRegisterRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenFirstNameIsBlank() {
-        MemberRegisterToMembershipRequestDto request = new MemberRegisterToMembershipRequestDto(
-                "  ",
-                "Doe",
-                "john.doe@example.com"
-        );
+        MemberRegisterToMembershipRequestDto request =
+                MemberTestDataFactory.createMemberRegisterRequestDto("  ");
         Set<ConstraintViolation<MemberRegisterToMembershipRequestDto>> violations =
                 validator.validate(request);
 
@@ -55,11 +52,10 @@ class MemberRegisterRequestValidationTest {
 
     @Test
     void shouldFailValidation_whenFirstNameExceedsMaxSize() {
-        MemberRegisterToMembershipRequestDto request = new MemberRegisterToMembershipRequestDto(
-                "a".repeat(NAME_MAX_SIZE + 1),
-                "Doe",
-                "john.doe@example.com"
-        );
+        MemberRegisterToMembershipRequestDto request =
+                MemberTestDataFactory.createMemberRegisterRequestDto(
+                    "a".repeat(NAME_MAX_SIZE + 1)
+                );
         Set<ConstraintViolation<MemberRegisterToMembershipRequestDto>> violations =
                 validator.validate(request);
 
