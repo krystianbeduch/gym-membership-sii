@@ -31,8 +31,11 @@ class MembershipPlanCreateRequestValidationTest {
 
     @Test
     void shouldPassValidation_whenRequestIsValid() {
-        MembershipPlanCreateRequestDto request = MembershipPlanTestDataFactory.createRequestDto();
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        MembershipPlanCreateRequestDto request =
+                MembershipPlanTestDataFactory.createRequestDto();
+
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertTrue(violations.isEmpty());
     }
@@ -47,11 +50,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("name", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "name",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -64,11 +70,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("name", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "name",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -81,11 +90,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("name", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "name",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -98,11 +110,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("type", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "type",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -115,11 +130,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("monthlyPriceAmount", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "monthlyPriceAmount",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -132,11 +150,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("monthlyPriceAmount", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "monthlyPriceAmount",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -149,11 +170,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("monthlyPriceAmount", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "monthlyPriceAmount",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -166,11 +190,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("monthlyPriceAmount", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "monthlyPriceAmount",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -183,11 +210,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("monthlyPriceAmount", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "monthlyPriceAmount",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -200,11 +230,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("monthlyPriceCurrencyCode", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "monthlyPriceCurrencyCode",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -217,11 +250,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(2, violations.size());
-        assertEquals("monthlyPriceCurrencyCode", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "monthlyPriceCurrencyCode",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -234,11 +270,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("monthlyPriceCurrencyCode", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "monthlyPriceCurrencyCode",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -251,11 +290,14 @@ class MembershipPlanCreateRequestValidationTest {
                 null,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("durationInMonths", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "durationInMonths",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -268,11 +310,14 @@ class MembershipPlanCreateRequestValidationTest {
                 0,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("durationInMonths", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "durationInMonths",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -285,11 +330,14 @@ class MembershipPlanCreateRequestValidationTest {
                 DURATION_MAX + 1,
                 100
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("durationInMonths", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "durationInMonths",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -302,11 +350,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 null
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("maxMembers", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "maxMembers",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -319,11 +370,14 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 0
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("maxMembers", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "maxMembers",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -336,10 +390,13 @@ class MembershipPlanCreateRequestValidationTest {
                 6,
                 MAX_MEMBERS_MAX + 1
         );
-
-        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<MembershipPlanCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("maxMembers", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "maxMembers",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 }

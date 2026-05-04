@@ -35,7 +35,8 @@ class GymCreateRequestValidationTest {
     @Test
     void shouldPassValidation_whenRequestIsValid() {
         GymCreateRequestDto requestDto = validRequest();
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(requestDto);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(requestDto);
 
         assertTrue(violations.isEmpty());
     }
@@ -47,11 +48,14 @@ class GymCreateRequestValidationTest {
                 validAddress(),
                 "123"
         );
-
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("name", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "name",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -61,11 +65,14 @@ class GymCreateRequestValidationTest {
                 validAddress(),
                 "123"
         );
-
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("name", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "name",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -75,11 +82,14 @@ class GymCreateRequestValidationTest {
                 validAddress(),
                 "123"
         );
-
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("name", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "name",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -89,11 +99,14 @@ class GymCreateRequestValidationTest {
                 null,
                 "123"
         );
-
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("gymAddress", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "gymAddress",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -103,11 +116,14 @@ class GymCreateRequestValidationTest {
                 validAddress(),
                 "   "
         );
-
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("phoneNumber", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "phoneNumber",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -117,11 +133,14 @@ class GymCreateRequestValidationTest {
                 validAddress(),
                 "1".repeat(PHONE_MAX_SIZE + 1)
         );
-
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("phoneNumber", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "phoneNumber",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -138,11 +157,14 @@ class GymCreateRequestValidationTest {
                 ),
                 "123"
         );
-
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("gymAddress.city", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "gymAddress.city",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
      @Test
@@ -159,11 +181,14 @@ class GymCreateRequestValidationTest {
                 ),
                 "123"
         );
-
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("gymAddress.country", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "gymAddress.country",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     @Test
@@ -180,11 +205,14 @@ class GymCreateRequestValidationTest {
                 ),
                 "123"
         );
-
-        Set<ConstraintViolation<GymCreateRequestDto>> violations = validator.validate(request);
+        Set<ConstraintViolation<GymCreateRequestDto>> violations =
+                validator.validate(request);
 
         assertEquals(1, violations.size());
-        assertEquals("gymAddress.postalCode", violations.iterator().next().getPropertyPath().toString());
+        assertEquals(
+                "gymAddress.postalCode",
+                violations.iterator().next().getPropertyPath().toString()
+        );
     }
 
     private GymCreateRequestDto validRequest() {

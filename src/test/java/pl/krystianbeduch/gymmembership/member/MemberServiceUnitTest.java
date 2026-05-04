@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.krystianbeduch.gymmembership.gym.entity.Gym;
 import pl.krystianbeduch.gymmembership.member.dto.MemberRegisterToMembershipRequestDto;
 import pl.krystianbeduch.gymmembership.member.dto.MemberResponseDto;
 import pl.krystianbeduch.gymmembership.member.entity.Member;
@@ -19,7 +18,6 @@ import pl.krystianbeduch.gymmembership.membership.enums.MemberStatus;
 import pl.krystianbeduch.gymmembership.membership.exception.MembershipPlanCapacityExceededException;
 import pl.krystianbeduch.gymmembership.membership.service.MembershipPlanService;
 import pl.krystianbeduch.gymmembership.testdata.MemberTestDataFactory;
-import pl.krystianbeduch.gymmembership.testdata.MembershipPlanTestDataFactory;
 
 import java.util.List;
 import java.util.Optional;

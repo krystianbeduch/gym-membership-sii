@@ -96,7 +96,7 @@ class GymServiceUnitTest {
 
         GymResponseDto response1 = new GymResponseDto(
                 1L,
-                "Gym1",
+                "Gym-1",
                 new GymAddressResponseDto(
                         Country.POLAND,
                         "City1",
@@ -109,7 +109,7 @@ class GymServiceUnitTest {
 
         GymResponseDto response2 = new GymResponseDto(
                 2L,
-                "Gym2",
+                "Gym-2",
                 new GymAddressResponseDto(
                         Country.POLAND,
                         "City2",
