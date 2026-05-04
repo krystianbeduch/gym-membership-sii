@@ -1,10 +1,6 @@
 package pl.krystianbeduch.gymmembership.gym.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import pl.krystianbeduch.gymmembership.membership.entity.MembershipPlan;
 
@@ -33,6 +29,7 @@ public class Gym {
     @Column(nullable = false, length = 20)
     private String phoneNumber;
 
+    @Builder.Default
     @OneToMany(mappedBy = "gym", cascade = CascadeType.ALL)
     private List<MembershipPlan> membershipPlan = new ArrayList<>();
 

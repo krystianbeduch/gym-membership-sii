@@ -1,41 +1,34 @@
 package pl.krystianbeduch.gymmembership.gym.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 import pl.krystianbeduch.gymmembership.gym.enums.Country;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 @Getter
 @Setter
 @Embeddable
 public class GymAddress {
 
-//    @NotNull(message = "{gym.address.country.notNull}")
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Country country;
 
-//    @NotBlank(message = "{gym.address.city.notBlank}")
-//    @Size(max = 60, message = "{gym.address.city.size}")
     @Column(nullable = false, length = 60)
     private String city;
 
-//    @NotBlank(message = "{gym.address.postalCode.notBlank}")
-//    @Size(max = 15, message = "{gym.address.postalCode.size}")
     @Column(nullable = false, length = 15)
     private String postalCode;
 
-//    @NotBlank(message = "{gym.address.street.notBlank}")
-//    @Size(max = 60, message = "{gym.address.street.size}")
     @Column(nullable = false, length = 60)
     private String street;
 
-//    @NotBlank(message = "{gym.address.buildingNumber.notBlank}")
-//    @Size(max = 15, message = "{gym.address.buildingNumber.size}")
     @Column(nullable = false, length = 15)
     private String buildingNumber;
 

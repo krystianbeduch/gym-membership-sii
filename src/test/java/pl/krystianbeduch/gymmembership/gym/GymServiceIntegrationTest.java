@@ -1,7 +1,5 @@
 package pl.krystianbeduch.gymmembership.gym;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,8 +68,8 @@ class GymServiceIntegrationTest {
 
     @Test
     void getAllGyms_shouldReturnAllPersistedGyms() {
-        Gym gym1 = GymTestDataFactory.createGym("Gym1");
-        Gym gym2 = GymTestDataFactory.createGym("Gym2");
+        Gym gym1 = GymTestDataFactory.createGym("Gym-1");
+        Gym gym2 = GymTestDataFactory.createGym("Gym-2");
 
         gymRepository.save(gym1);
         gymRepository.save(gym2);
@@ -79,7 +77,7 @@ class GymServiceIntegrationTest {
         List<GymResponseDto> result = gymService.getAllGyms();
 
         assertEquals(2, result.size());
-        assertTrue(result.stream().anyMatch(g -> g.name().equals("Gym1")));
-        assertTrue(result.stream().anyMatch(g -> g.name().equals("Gym2")));
+        assertTrue(result.stream().anyMatch(g -> g.name().equals("Gym-1")));
+        assertTrue(result.stream().anyMatch(g -> g.name().equals("Gym-2")));
     }
 }

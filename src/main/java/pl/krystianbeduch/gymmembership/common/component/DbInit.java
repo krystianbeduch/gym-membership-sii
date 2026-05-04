@@ -31,207 +31,216 @@ public class DbInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (gymRepository.existsByName("Gym")) {
-            return;
-        }
+        Gym pureGym = Gym.builder()
+                .name("PureGym London Angel")
+                .gymAddress(
+                        GymAddress.builder()
+                                .country(Country.UNITED_KINGDOM)
+                                .city("London")
+                                .postalCode("N1 0QH")
+                                .street("Upper St")
+                                .buildingNumber("52")
+                                .build()
+                )
+                .phoneNumber("+44 111-222-333")
+                .build();
 
-        Gym pureGym = gymRepository.save(new Gym(
-                "PureGym London Angel",
-                new GymAddress(
-                        Country.UNITED_KINGDOM,
-                        "London",
-                        "N1 0QH",
-                        "Upper St",
-                        "52",
-                        null
-                ),
-                "+44 111-222-333"
+        Gym mcFitGym = Gym.builder()
+                .name("McFIT Fitnessstudio Berlin-Stadtmitte")
+                .gymAddress(
+                        GymAddress.builder()
+                                .country(Country.GERMANY)
+                                .city("Berlin")
+                                .postalCode("10117")
+                                .street("Lepizig Str.")
+                                .buildingNumber("46/47")
+                                .build()
+                )
+                .phoneNumber("+49 444-555-666")
+                .build();
+
+        Gym fabrykaFormyGym = Gym.builder()
+                .name("Fabryka Formy Katowice KTW")
+                .gymAddress(
+                        GymAddress.builder()
+                                .country(Country.POLAND)
+                                .city("Katowice")
+                                .postalCode("40-203")
+                                .street("al. Rozdzienskiego")
+                                .buildingNumber("1")
+                                .build()
+                )
+                .phoneNumber("+48 777-888-999")
+                .build();
+
+        gymRepository.saveAll(List.of(
+                pureGym, mcFitGym, fabrykaFormyGym
         ));
 
-        Gym mcFitGym = gymRepository.save(new Gym(
-                "McFIT Fitnessstudio Berlin-Stadtmitte",
-                new GymAddress(
-                        Country.GERMANY,
-                        "Berlin",
-                        "10117",
-                        "Lepizig Str.",
-                        "46/47",
-                        null
-                ),
-                "+49 444-555-666"
-        ));
+        MembershipPlan pureStarter = MembershipPlan.builder()
+                .name("Pure Starter")
+                .type(MembershipPlanType.BASIC)
+                .monthlyPrice(
+                        new Money(
+                                new BigDecimal("34.99"),
+                                Currency.getInstance("EUR")
+                        )
+                )
+                .durationInMonths(1)
+                .maxMembers(100)
+                .gym(pureGym)
+                .build();
 
-        Gym fabrykaFormyGym = gymRepository.save(new Gym(
-                "Fabryka Formy Katowice KTW",
-                new GymAddress(
-                        Country.POLAND,
-                        "Katowice",
-                        "40-203",
-                        "al. Rozdzienskiego.",
-                        "1",
-                        null
-                ),
-                "+89 777-888-999"
-        ));
+        MembershipPlan mcBasic = MembershipPlan.builder()
+                .name("McBasic")
+                .type(MembershipPlanType.BASIC)
+                .monthlyPrice(
+                        new Money(
+                                new BigDecimal("22.99"),
+                                Currency.getInstance("GBP")
+                        )
+                )
+                .durationInMonths(1)
+                .maxMembers(250)
+                .gym(mcFitGym)
+                .build();
 
-        MembershipPlan pureStarter = new MembershipPlan(
-                "Pure Starter",
-                MembershipPlanType.BASIC,
-                new Money(
-                        new BigDecimal("34.99"),
-                        Currency.getInstance("EUR")
-                ),
-                1,
-                100,
-                pureGym
-        );
+        MembershipPlan mcPremium = MembershipPlan.builder()
+                .name("McPremium")
+                .type(MembershipPlanType.PREMIUM)
+                .monthlyPrice(
+                        new Money(
+                                new BigDecimal("143.49"),
+                                Currency.getInstance("EUR")
+                        )
+                )
+                .durationInMonths(3)
+                .maxMembers(60)
+                .gym(mcFitGym)
+                .build();
 
-        MembershipPlan mcBasic = new MembershipPlan(
-            "McBasic",
-            MembershipPlanType.BASIC,
-            new Money(
-                    new BigDecimal("22.99"),
-                    Currency.getInstance("GBP")
-            ),
-            1,
-            250,
-            mcFitGym
-        );
+        MembershipPlan mcElite = MembershipPlan.builder()
+                .name("McElite")
+                .type(MembershipPlanType.PREMIUM)
+                .monthlyPrice(
+                        new Money(
+                                new BigDecimal("999.99"),
+                                Currency.getInstance("PLN")
+                        )
+                )
+                .durationInMonths(6)
+                .maxMembers(60)
+                .gym(mcFitGym)
+                .build();
 
-        MembershipPlan mcPremium = new MembershipPlan(
-            "McPremium",
-            MembershipPlanType.PREMIUM,
-            new Money(
-                    new BigDecimal("143.49"),
-                    Currency.getInstance("EUR")
-            ),
-            3,
-            60,
-            mcFitGym
-        );
-
-        MembershipPlan mcElite = new MembershipPlan(
-            "McElite",
-            MembershipPlanType.PREMIUM,
-            new Money(
-                    new BigDecimal("999.99"),
-                    Currency.getInstance("PLN")
-            ),
-            6,
-            60,
-            mcFitGym
-        );
-
-        MembershipPlan fabrykaDuo = new MembershipPlan(
-            "FabrykaDuo",
-            MembershipPlanType.GROUP,
-            new Money(
-                    new BigDecimal("79.29"),
-                    Currency.getInstance("PLN")
-            ),
-            1,
-            2,
-            fabrykaFormyGym
-        );
+        MembershipPlan fabrykaDuo = MembershipPlan.builder()
+                .name("FabrykaDuo")
+                .type(MembershipPlanType.GROUP)
+                .monthlyPrice(
+                        new Money(
+                                new BigDecimal("79.29"),
+                                Currency.getInstance("PLN")
+                        )
+                )
+                .durationInMonths(1)
+                .maxMembers(2)
+                .gym(fabrykaFormyGym)
+                .build();
 
         membershipPlanRepository.saveAll(List.of(
                 pureStarter, mcBasic, mcPremium, mcElite, fabrykaDuo
         ));
 
         List<Member> members = List.of(
-            new Member(
-                    "Oliver",
-                    "Bennett",
-                    "oliver.bennett@example.com",
-                    pureStarter
-            ),
-            new Member(
-                    "Amelia",
-                    "Carter",
-                    "amelia.carter@example.com",
-                    pureStarter
-            ),
-            new Member(
-                    "Ethan",
-                    "Price",
-                    "ethan.price@example.com",
-                    MemberStatus.CANCELLED,
-                    pureStarter
-            ),
-
-            new Member(
-                    "Lukas",
-                    "Neumann",
-                    "lukas.neumann@example.com",
-                    mcBasic
-            ),
-            new Member(
-                    "Hannah",
-                    "Fischer",
-                    "hannah.fischer@example.com",
-                    mcBasic
-            ),
-            new Member(
-                    "Jonas",
-                    "Vogel",
-                    "jonas.vogel@example.com",
-                    MemberStatus.CANCELLED,
-                    mcBasic
-            ),
-
-            new Member(
-                    "Mila",
-                    "Schneider",
-                    "mila.schneider@example.com",
-                    mcPremium
-            ),
-            new Member(
-                    "Noah",
-                    "Krause",
-                    "noah.krause@example.com",
-                    mcPremium
-            ),
-            new Member(
-                    "Leonie",
-                    "Hartmann",
-                    "leonie.hartmann@example.com",
-                    MemberStatus.CANCELLED,
-                    mcPremium
-            ),
-
-            new Member(
-                    "Kacper",
-                    "Nowicki",
-                    "kacper.nowicki@example.com",
-                    mcElite
-            ),
-            new Member(
-                    "Zuzanna",
-                    "Wrobel",
-                    "zuzanna.wrobel@example.com",
-                    mcElite
-            ),
-            new Member(
-                    "Mateusz",
-                    "Jablonski",
-                    "mateusz.jablonski@example.com",
-                    MemberStatus.CANCELLED,
-                    mcElite
-            ),
-
-            new Member(
-                    "Jakub",
-                    "Kowalczyk",
-                    "jakub.kowalczyk@example.com",
-                    fabrykaDuo
-            ),
-            new Member(
-                    "Maja",
-                    "Szymanska",
-                    "maja.szymanska@example.com",
-                    MemberStatus.CANCELLED,
-                    fabrykaDuo
-            )
+                Member.builder()
+                        .firstName("Olivier")
+                        .lastName("Bennett")
+                        .email("oliver.bennett@example.com")
+                        .membershipPlan(pureStarter)
+                        .build(),
+                Member.builder()
+                        .firstName("Amelia")
+                        .lastName("Carter")
+                        .email("amelia.carter@example.com")
+                        .membershipPlan(pureStarter)
+                        .build(),
+                Member.builder()
+                        .firstName("Ethan")
+                        .lastName("Price")
+                        .email("ethan.price@example.com")
+                        .memberStatus(MemberStatus.CANCELLED)
+                        .membershipPlan(pureStarter)
+                        .build(),
+                Member.builder()
+                        .firstName("Lukas")
+                        .lastName("Neumann")
+                        .email("lukas.neumann@example.com")
+                        .membershipPlan(mcBasic)
+                        .build(),
+                Member.builder()
+                        .firstName("Hannah")
+                        .lastName("Fischer")
+                        .email("hannah.fischer@example.com")
+                        .membershipPlan(mcBasic)
+                        .build(),
+                Member.builder()
+                        .firstName("Jonas")
+                        .lastName("Vogel")
+                        .email("jonas.vogel@example.com")
+                        .memberStatus(MemberStatus.CANCELLED)
+                        .membershipPlan(mcBasic)
+                        .build(),
+                Member.builder()
+                        .firstName("Mila")
+                        .lastName("Schneider")
+                        .email("mila.schneider@example.com")
+                        .membershipPlan(mcBasic)
+                        .build(),
+                Member.builder()
+                        .firstName("Noah")
+                        .lastName("Krause")
+                        .email("noah.krause@example.com")
+                        .membershipPlan(mcPremium)
+                        .build(),
+                Member.builder()
+                        .firstName("Leonie")
+                        .lastName("Hartmann")
+                        .email("leonie.hartmann@example.com")
+                        .memberStatus(MemberStatus.CANCELLED)
+                        .membershipPlan(mcPremium)
+                        .build(),
+                 Member.builder()
+                        .firstName("Kacper")
+                        .lastName("Nowicki")
+                        .email("kacper.nowicki@example.com")
+                        .membershipPlan(mcElite)
+                        .build(),
+                Member.builder()
+                        .firstName("Zuzanna")
+                        .lastName("Wrobel")
+                        .email("zuzanna.wrobel@example.com")
+                        .membershipPlan(mcElite)
+                        .build(),
+                Member.builder()
+                        .firstName("Mateusz")
+                        .lastName("Jablonski")
+                        .email("mateusz.jablonski@example.com")
+                        .memberStatus(MemberStatus.CANCELLED)
+                        .membershipPlan(mcElite)
+                        .build(),
+                Member.builder()
+                        .firstName("Jakub")
+                        .lastName("Kowalczyk")
+                        .email("jakub.kowalczyk@example.com")
+                        .membershipPlan(fabrykaDuo)
+                        .build(),
+                Member.builder()
+                        .firstName("Maja")
+                        .lastName("Szymanska")
+                        .email("maja.szymanska@example.com")
+                        .membershipPlan(fabrykaDuo)
+                        .memberStatus(MemberStatus.CANCELLED)
+                        .build()
         );
 
         memberRepository.saveAll(members);
