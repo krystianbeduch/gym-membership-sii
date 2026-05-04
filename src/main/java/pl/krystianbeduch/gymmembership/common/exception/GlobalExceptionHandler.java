@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import pl.krystianbeduch.gymmembership.report.exception.InvalidReportMonthFormatException;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.exc.InvalidFormatException;
 
@@ -131,5 +132,21 @@ public class GlobalExceptionHandler {
         }
 
         return ApiError.of(HttpStatus.BAD_REQUEST, "Malformed JSON request");
+    }
+
+    /**
+     * Handles an invalid month format passed to the revenue report endpoint.
+     *
+     * <p>This exception is thrown when the request query parameter representing
+     * the report month cannot be parsed using the expected {@code MM-yyyy} format,
+     * for example, when the client sends {@code 2026-05} instead of {@code 05-2026}.
+     * Maps the error to HTTP 400 Bad Request.</p>
+     */
+    @ExceptionHandler(InvalidReportMonthFormatException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError handleInvalidReportMonthFormatException(
+            InvalidReportMonthFormatException e
+    ) {
+        return ApiError.of(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 }

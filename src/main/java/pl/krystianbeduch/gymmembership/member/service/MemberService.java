@@ -92,6 +92,13 @@ public class MemberService {
         return members;
     }
 
+    @Transactional(readOnly = true)
+    public List<Member> getAllMembersEntityByStatus(MemberStatus memberStatus) {
+        log.info("Fetching all members by status={}", memberStatus);
+
+        return memberRepository.findAllByMemberStatus(memberStatus);
+    }
+
     @Transactional
     public MemberResponseDto cancelMembership(Long memberId) {
         log.info("Cancelling membership for memberId={}", memberId);
@@ -99,6 +106,8 @@ public class MemberService {
         member.cancelMembership();
         return memberMapper.entityToResponseDto(member);
     }
+
+
 
     private Member getMemberById(Long id) {
         log.info("Fetching member with id={}", id);

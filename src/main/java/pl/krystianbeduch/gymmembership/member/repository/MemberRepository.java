@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import pl.krystianbeduch.gymmembership.member.entity.Member;
 import pl.krystianbeduch.gymmembership.membership.enums.MemberStatus;
 
+import java.util.List;
+
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByEmail(String email);
@@ -12,4 +14,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     long countByMembershipPlanIdAndMemberStatus(
             Long membershipPlanId, MemberStatus memberStatus
     );
+
+    List<Member> findAllByMemberStatus(MemberStatus memberStatus);
 }
